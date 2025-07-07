@@ -31,37 +31,70 @@
         .tool-card {
             transition: all 0.3s ease;
         }
+        #search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .search-result-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .search-result-item:hover {
+            background-color: #f8f9fa;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-active #search-results {
+            display: block;
+        }
+        .search-active #search-input {
+            border-radius: 12px 12px 0 0;
+        }
+        .search-active #search-button {
+            border-radius: 0 12px 0 0;
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Modified Header Section for Mobile View -->
-<header class="bg-white shadow-sm sticky top-0 z-10">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <!-- Logo on left -->
-        <a href="/" class="flex items-center">
-            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
-                <i class="fas fa-tools text-white text-lg"></i>
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo on left -->
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+
+            <!-- Menu button on right for mobile -->
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Desktop navigation (hidden on mobile) -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Blog</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
             </div>
-            <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
-        </a>
-
-        <!-- Menu button on right for mobile -->
-        <button id="menu-toggle" class="md:hidden text-gray-600">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-
-        <!-- Desktop navigation (hidden on mobile) -->
-        <nav class="hidden md:flex space-x-8">
-            <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">All Tools</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">Blog</a>
-            <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
-        </nav>
-        <div class="hidden md:block">
-            <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
         </div>
-    </div>
-</header>
+    </header>
 
     <!-- Sidebar Mobile Menu -->
     <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
@@ -102,12 +135,17 @@
             <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6">100+ Free Online Tools for Everyone</h1>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Simplify your work with our collection of free, easy-to-use tools. No installation required.</p>
             
-            <div class="max-w-2xl mx-auto relative">
-                <input type="text" placeholder="Search for tools (e.g., PDF converter, age calculator)" 
-                    class="w-full px-6 py-4 rounded-full shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <button class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full">
-                    <i class="fas fa-search"></i> Search
-                </button>
+            <div class="max-w-2xl mx-auto relative" id="search-container">
+                <form id="search-form" class="relative">
+                    <input type="text" id="search-input" placeholder="Search for tools (e.g., PDF converter, age calculator)" 
+                        class="w-full px-6 py-4 rounded-full shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button type="submit" id="search-button" class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
+                <div id="search-results">
+                    <!-- Search results will be populated here by JavaScript -->
+                </div>
             </div>
             
             <div class="mt-8 flex flex-wrap justify-center gap-3">
@@ -147,7 +185,7 @@
                             <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Img to Pdf</h3>
-                        <p class="text-gray-600 text-sm">Convert PDF documents to editable Word files</p>
+                        <p class="text-gray-600 text-sm">Convert images to PDF documents</p>
                     </div>
                 </a>
                 
@@ -398,6 +436,80 @@
     </footer>
 
     <script>
+        // Tool database for search functionality
+        const toolsDatabase = [
+            { 
+                name: "Age Calculator", 
+                keywords: ["age", "calculator", "birth date", "how old am i", "age calculator"], 
+                description: "Calculate age from birth date to current or any date", 
+                url: "age-calculator.html",
+                icon: "fas fa-calculator"
+            },
+            { 
+                name: "Image to PDF", 
+                keywords: ["image", "pdf", "convert", "img to pdf", "image converter", "jpg to pdf", "png to pdf"], 
+                description: "Convert images to PDF documents", 
+                url: "image-to-pdf.html",
+                icon: "fas fa-file-pdf"
+            },
+            { 
+                name: "Word Counter", 
+                keywords: ["word", "counter", "character count", "text analysis", "word count"], 
+                description: "Count words, characters, sentences in your text", 
+                url: "word-counter.html",
+                icon: "fas fa-font"
+            },
+            { 
+                name: "Image Resizer", 
+                keywords: ["image", "resize", "compressor", "photo resizer", "image size", "picture resizer"], 
+                description: "Resize and compress images online for free", 
+                url: "image-resizer.html",
+                icon: "fas fa-image"
+            },
+            { 
+                name: "Unit Converter", 
+                keywords: ["unit", "converter", "measurement", "length", "weight", "temperature"], 
+                description: "Convert between different units of measurement", 
+                url: "unit-converter.html",
+                icon: "fas fa-random"
+            },
+            { 
+                name: "Password Generator", 
+                keywords: ["password", "generator", "secure", "strong password", "random password"], 
+                description: "Create strong, secure passwords instantly", 
+                url: "password-generator.html",
+                icon: "fas fa-lock"
+            },
+            { 
+                name: "QR Code Generator", 
+                keywords: ["qr", "code", "generator", "qr code", "quick response"], 
+                description: "Create QR codes for URLs, text, and more", 
+                url: "qr-code-generator.html",
+                icon: "fas fa-qrcode"
+            },
+            { 
+                name: "CSV to JSON", 
+                keywords: ["csv", "json", "converter", "data", "excel", "spreadsheet"], 
+                description: "Convert CSV data to JSON format easily", 
+                url: "csv-to-json.html",
+                icon: "fas fa-file-excel"
+            },
+            { 
+                name: "Image Compressor", 
+                keywords: ["image", "compress", "optimize", "reduce size", "jpg compressor", "png compressor"], 
+                description: "Reduce image file size without losing quality", 
+                url: "image-compressor.html",
+                icon: "fas fa-compress"
+            },
+            { 
+                name: "PDF Merger", 
+                keywords: ["pdf", "merge", "combine", "join pdf", "pdf combiner"], 
+                description: "Combine multiple PDF files into one document", 
+                url: "pdf-merger.html",
+                icon: "fas fa-file-pdf"
+            }
+        ];
+
         // Mobile menu toggle
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.querySelector('.sidebar');
@@ -422,21 +534,93 @@
             });
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // Search functionality
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const searchContainer = document.getElementById('search-container');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            
+            if (searchTerm.length === 0) {
+                searchContainer.classList.remove('search-active');
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            // Filter tools based on search term
+            const matchedTools = toolsDatabase.filter(tool => {
+                // Check if search term matches tool name or keywords
+                const nameMatch = tool.name.toLowerCase().includes(searchTerm);
+                const keywordMatch = tool.keywords.some(keyword => 
+                    keyword.toLowerCase().includes(searchTerm)
+                );
                 
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+                return nameMatch || keywordMatch;
             });
+            
+            // Display results
+            if (matchedTools.length > 0) {
+                searchContainer.classList.add('search-active');
+                searchResults.innerHTML = '';
+                
+                matchedTools.forEach(tool => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="${tool.icon} mr-3 text-blue-500"></i>
+                            <div>
+                                <div class="font-medium">${tool.name}</div>
+                                <div class="text-xs text-gray-500">${tool.description}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultItem.addEventListener('click', () => {
+                        window.location.href = tool.url;
+                    });
+                    
+                    searchResults.appendChild(resultItem);
+                });
+            } else {
+                searchContainer.classList.remove('search-active');
+                searchResults.innerHTML = '';
+            }
+        });
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!searchContainer.contains(event.target)) {
+                searchContainer.classList.remove('search-active');
+            }
+        });
+        
+        // Handle form submission
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            if (searchTerm.length === 0) return;
+            
+            // Find the best matching tool
+            const matchedTool = toolsDatabase.find(tool => {
+                // Check if search term matches tool name exactly
+                if (tool.name.toLowerCase() === searchTerm) return true;
+                
+                // Check if any keyword matches exactly
+                return tool.keywords.some(keyword => 
+                    keyword.toLowerCase() === searchTerm
+                );
+            });
+            
+            if (matchedTool) {
+                window.location.href = matchedTool.url;
+            } else {
+                // If no exact match, show results (already shown by input event)
+                searchContainer.classList.add('search-active');
+            }
         });
     </script>
 </body>
