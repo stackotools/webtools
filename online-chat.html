@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure peer-to-peer chat application with end-to-end encryption. No server required, direct browser-to-browser communication.">
+    <meta name="keywords" content="p2p chat, secure messaging, web chat, peerjs chat, webrtc chat">
+    <title>P2P Secure Chat | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .message-input:focus + .send-button { @apply bg-blue-600; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .typing-indicator { opacity: 0; transition: opacity 0.3s ease; }
+        .typing-indicator.active { opacity: 1; }
+        .dark-mode { @apply bg-gray-900 text-gray-100; }
+        .dark-mode .message-bubble { @apply bg-gray-700 text-gray-100; }
+        .dark-mode .message-input { @apply bg-gray-800 border-gray-600 text-white; }
+        .dark-mode .chat-container { @apply bg-gray-800 border-gray-700; }
+        @media (max-width: 640px) {
+            .converter-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Blog</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="online-chat.html" class="block px-3 py-2 rounded bg-blue-50 text-blue-700"><i class="fas fa-comments mr-2 text-purple-500"></i> P2P Chat</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-comments text-purple-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Secure P2P Chat</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                End-to-end encrypted chat directly between browsers. No servers, no logs, completely private.
+            </p>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="max-w-2xl mx-auto">
+            <!-- Connection Panel -->
+            <div id="connectionPanel" class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 p-6 mb-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="text-center">
+                        <button id="createRoomBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium mb-3">
+                            <i class="fas fa-plus-circle mr-2"></i> Create New Room
+                        </button>
+                        <p class="text-sm text-gray-600">Create a secure chat room and share the ID</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <input id="joinRoomInput" type="text" placeholder="Enter Room ID" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button id="joinRoomBtn" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Join Room
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="roomInfo" class="hidden mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-medium text-gray-800 mb-2">Your Room ID:</h3>
+                    <div class="flex items-center">
+                        <input id="roomIdDisplay" type="text" readonly class="flex-1 bg-white border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none">
+                        <button id="copyRoomIdBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="mt-3 flex justify-center">
+                        <div id="qrCode" class="p-2 bg-white rounded"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3 text-center">Share this ID or QR code with the person you want to chat with</p>
+                </div>
+            </div>
+
+            <!-- Chat Panel -->
+            <div id="chatPanel" class="hidden bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                <!-- Chat Header -->
+                <div class="bg-gray-50 px-4 py-3 border-b flex justify-between items-center">
+                    <div>
+                        <h2 class="font-semibold text-gray-800">Secure Chat</h2>
+                        <p id="connectionStatus" class="text-xs text-gray-500">Connected to: <span id="peerNameDisplay"></span></p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200">
+                            <i class="fas fa-moon text-gray-600"></i>
+                        </button>
+                        <button id="emojiToggle" class="p-2 rounded-full hover:bg-gray-200">
+                            <i class="far fa-smile text-gray-600"></i>
+                        </button>
+                        <button id="disconnectBtn" class="p-2 rounded-full hover:bg-gray-200 text-red-600">
+                            <i class="fas fa-phone-slash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Messages Container -->
+                <div id="messagesContainer" class="chat-container h-96 overflow-y-auto p-4 bg-gray-50">
+                    <div class="flex justify-center items-center h-full text-gray-400" id="emptyState">
+                        <div class="text-center">
+                            <i class="fas fa-comment-dots text-4xl mb-2"></i>
+                            <p>Start chatting with your peer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Typing Indicator -->
+                <div id="typingIndicator" class="typing-indicator px-4 pb-2 text-sm text-gray-500">
+                    <span id="typingText"></span>
+                </div>
+                
+                <!-- Message Input -->
+                <div class="p-3 border-t bg-gray-50">
+                    <div class="flex">
+                        <div id="emojiPicker" class="hidden absolute bottom-16 mb-2 bg-white shadow-lg rounded-lg p-2 w-64 h-48 overflow-y-auto"></div>
+                        <input id="messageInput" type="text" placeholder="Type your message..." class="message-input flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button id="sendMessageBtn" class="send-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="max-w-2xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Secure P2P Chat Features</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-lock text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">End-to-End Encryption</h3>
+                        <p class="text-gray-600 text-sm">Messages are encrypted directly between peers. No server can read your conversations.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-server text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">No Server Required</h3>
+                        <p class="text-gray-600 text-sm">Chat directly between browsers. No messages are stored on any server.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-bolt text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Real-Time Communication</h3>
+                        <p class="text-gray-600 text-sm">Instant message delivery with typing indicators for natural conversation flow.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-qrcode text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Easy Sharing</h3>
+                        <p class="text-gray-600 text-sm">Share room IDs via QR code or copy-paste. No accounts needed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="image-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="file-transfer.html" class="text-gray-400 hover:text-white text-sm">P2P File Transfer</a></li>
+                        <li><a href="online-chat.html" class="text-gray-400 hover:text-white text-sm">Secure P2P Chat</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="#" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for P2P Chat -->
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        // P2P Chat Application
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const connectionPanel = document.getElementById('connectionPanel');
+            const chatPanel = document.getElementById('chatPanel');
+            const createRoomBtn = document.getElementById('createRoomBtn');
+            const joinRoomBtn = document.getElementById('joinRoomBtn');
+            const joinRoomInput = document.getElementById('joinRoomInput');
+            const roomInfo = document.getElementById('roomInfo');
+            const roomIdDisplay = document.getElementById('roomIdDisplay');
+            const copyRoomIdBtn = document.getElementById('copyRoomIdBtn');
+            const qrCode = document.getElementById('qrCode');
+            const messagesContainer = document.getElementById('messagesContainer');
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const peerNameDisplay = document.getElementById('peerNameDisplay');
+            const typingIndicator = document.getElementById('typingIndicator');
+            const typingText = document.getElementById('typingText');
+            const emptyState = document.getElementById('emptyState');
+            const disconnectBtn = document.getElementById('disconnectBtn');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const emojiToggle = document.getElementById('emojiToggle');
+            const emojiPicker = document.getElementById('emojiPicker');
+
+            // PeerJS variables
+            let peer;
+            let conn;
+            let currentRoomId;
+            let isTyping = false;
+            let typingTimeout;
+            let darkMode = false;
+
+            // Emoji list
+            const emojis = ['😀', '😂', '😍', '🤔', '👍', '👋', '🎉', '❤️', '🔥', '🙏'];
+
+            // Initialize emoji picker
+            function initEmojiPicker() {
+                emojis.forEach(emoji => {
+                    const emojiBtn = document.createElement('button');
+                    emojiBtn.textContent = emoji;
+                    emojiBtn.className = 'text-2xl p-1 hover:bg-gray-100 rounded';
+                    emojiBtn.addEventListener('click', () => {
+                        messageInput.value += emoji;
+                        messageInput.focus();
+                        emojiPicker.classList.add('hidden');
+                    });
+                    emojiPicker.appendChild(emojiBtn);
+                });
+            }
+
+            // Toggle emoji picker
+            emojiToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                emojiPicker.classList.toggle('hidden');
+            });
+
+            // Close emoji picker when clicking outside
+document.addEventListener('click', (e) => {
+    if (!emojiPicker.contains(e.target)) {
+        emojiPicker.classList.add('hidden');
+    }
+});
+
+
+            // Dark mode toggle
+            darkModeToggle.addEventListener('click', () => {
+                darkMode = !darkMode;
+                document.body.classList.toggle('dark-mode', darkMode);
+                darkModeToggle.innerHTML = darkMode ? 
+                    '<i class="fas fa-sun text-yellow-400"></i>' : 
+                    '<i class="fas fa-moon text-gray-600"></i>';
+                
+                // Save preference to localStorage
+                localStorage.setItem('darkMode', darkMode.toString());
+            });
+
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode')) {
+                darkMode = localStorage.getItem('darkMode') === 'true';
+                document.body.classList.toggle('dark-mode', darkMode);
+                darkModeToggle.innerHTML = darkMode ? 
+                    '<i class="fas fa-sun text-yellow-400"></i>' : 
+                    '<i class="fas fa-moon text-gray-600"></i>';
+            }
+
+            // Create a new chat room
+            createRoomBtn.addEventListener('click', () => {
+                createRoomBtn.disabled = true;
+                createRoomBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating Room...';
+                
+                // Generate a 6-digit numeric ID
+                currentRoomId = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                // Create a new Peer with our numeric ID
+                peer = new Peer(currentRoomId, {
+                    host: 'peerjs-server.herokuapp.com',
+                    secure: true,
+                    debug: 3,
+                    config: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
+                        ]
+                    }
+                });
+
+                peer.on('open', (id) => {
+                    console.log('PeerJS connected with ID:', id);
+                    roomIdDisplay.value = id;
+                    roomInfo.classList.remove('hidden');
+                    createRoomBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Room Created';
+                    
+                    // Generate QR code
+                    QRCode.toCanvas(qrCode, id, { width: 150 }, (error) => {
+                        if (error) console.error('QR code error:', error);
+                    });
+                    
+                    // Wait for connection
+                    peer.on('connection', (connection) => {
+                        console.log('Peer connected:', connection.peer);
+                        conn = connection;
+                        setupConnectionHandlers();
+                        connectionPanel.classList.add('hidden');
+                        chatPanel.classList.remove('hidden');
+                        peerNameDisplay.textContent = 'Peer-' + conn.peer.slice(-4);
+                        addMessage('Peer connected to the chat', 'system');
+                    });
+                });
+
+                peer.on('error', (err) => {
+                    console.error('Peer error:', err);
+                    createRoomBtn.disabled = false;
+                    createRoomBtn.innerHTML = '<i class="fas fa-plus-circle mr-2"></i> Create New Room';
+                    
+                    let errorMsg = 'Error creating room: ';
+                    if (err.type === 'unavailable-id') {
+                        errorMsg += 'Room ID already in use. Please try again.';
+                    } else if (err.type === 'peer-unavailable') {
+                        errorMsg += 'Could not connect to peer server. Please check your internet connection.';
+                    } else {
+                        errorMsg += err.message;
+                    }
+                    
+                    alert(errorMsg);
+                });
+            });
+
+            // Join an existing room
+            joinRoomBtn.addEventListener('click', () => {
+                const roomId = joinRoomInput.value.trim();
+                if (!roomId) {
+                    alert('Please enter a valid room ID');
+                    return;
+                }
+
+                joinRoomBtn.disabled = true;
+                joinRoomBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Connecting...';
+                
+                // Generate a random numeric ID for the joining peer
+                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                // Create a new Peer for the joining user
+                peer = new Peer(randomId, {
+                    host: 'peerjs-server.herokuapp.com',
+                    secure: true,
+                    debug: 3,
+                    config: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
+                        ]
+                    }
+                });
+
+                peer.on('open', (id) => {
+                    console.log('PeerJS connected with ID:', id);
+                    // Connect to the existing room
+                    conn = peer.connect(roomId, {
+                        reliable: true,
+                        metadata: { username: 'User-' + id.slice(-4) }
+                    });
+
+                    conn.on('open', () => {
+                        console.log('Connected to peer:', conn.peer);
+                        connectionPanel.classList.add('hidden');
+                        chatPanel.classList.remove('hidden');
+                        peerNameDisplay.textContent = 'Peer-' + roomId.slice(-4);
+                        joinRoomBtn.disabled = false;
+                        joinRoomBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Join Room';
+                        
+                        // Setup message handlers
+                        setupConnectionHandlers();
+                        
+                        // Send a welcome message
+                        addMessage('You joined the chat', 'system');
+                    });
+
+                    conn.on('error', (err) => {
+                        console.error('Connection error:', err);
+                        alert('Connection error: ' + err.message);
+                        joinRoomBtn.disabled = false;
+                        joinRoomBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Join Room';
+                    });
+                });
+
+                peer.on('error', (err) => {
+                    console.error('Peer error:', err);
+                    alert('Error joining room: ' + err.message);
+                    joinRoomBtn.disabled = false;
+                    joinRoomBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Join Room';
+                });
+            });
+
+            // Copy Room ID to clipboard
+            copyRoomIdBtn.addEventListener('click', () => {
+                roomIdDisplay.select();
+                document.execCommand('copy');
+                const originalText = copyRoomIdBtn.innerHTML;
+                copyRoomIdBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+                setTimeout(() => {
+                    copyRoomIdBtn.innerHTML = originalText;
+                }, 2000);
+            });
+
+            // Setup connection handlers
+            function setupConnectionHandlers() {
+                // Handle incoming data
+                conn.on('data', (data) => {
+                    if (data.type === 'message') {
+                        addMessage(data.text, 'peer');
+                    } else if (data.type === 'typing') {
+                        handleTypingIndicator(data.isTyping);
+                    }
+                });
+
+                // Handle connection close
+                conn.on('close', () => {
+                    addMessage('Peer disconnected', 'system');
+                    disconnectChat();
+                });
+
+                // Handle errors
+                conn.on('error', (err) => {
+                    console.error('Connection error:', err);
+                    addMessage('Connection error: ' + err.message, 'error');
+                });
+            }
+
+            // Send message
+            function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message || !conn || conn.open !== true) return;
+
+                // Add message to UI
+                addMessage(message, 'self');
+                
+                // Send message to peer
+                conn.send({
+                    type: 'message',
+                    text: message
+                });
+
+                // Clear input
+                messageInput.value = '';
+                
+                // Send typing stopped
+                sendTypingStatus(false);
+            }
+
+            // Add message to chat UI
+            function addMessage(text, sender) {
+                if (emptyState) emptyState.remove();
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'mb-3';
+                
+                const bubbleDiv = document.createElement('div');
+                bubbleDiv.className = 'message-bubble inline-block px-4 py-2 rounded-lg max-w-xs md:max-w-md';
+                
+                if (sender === 'self') {
+                    messageDiv.className += ' text-right';
+                    bubbleDiv.className += ' bg-blue-500 text-white';
+                } else if (sender === 'peer') {
+                    messageDiv.className += ' text-left';
+                    bubbleDiv.className += ' bg-gray-200 text-gray-800';
+                } else if (sender === 'error') {
+                    messageDiv.className += ' text-center';
+                    bubbleDiv.className += ' bg-red-100 text-red-700 text-sm';
+                } else {
+                    messageDiv.className += ' text-center';
+                    bubbleDiv.className += ' bg-gray-100 text-gray-600 text-sm';
+                }
+
+                if (darkMode) {
+                    if (sender === 'self') {
+                        bubbleDiv.className += ' bg-blue-600';
+                    } else if (sender === 'peer') {
+                        bubbleDiv.className += ' bg-gray-700 text-gray-100';
+                    } else if (sender === 'error') {
+                        bubbleDiv.className += ' bg-red-900 text-red-100';
+                    } else {
+                        bubbleDiv.className += ' bg-gray-700 text-gray-300';
+                    }
+                }
+
+                bubbleDiv.textContent = text;
+                messageDiv.appendChild(bubbleDiv);
+                messagesContainer.appendChild(messageDiv);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // Typing indicators
+            function handleTypingIndicator(isTyping) {
+                if (isTyping) {
+                    typingText.textContent = 'Peer is typing...';
+                    typingIndicator.classList.add('active');
+                } else {
+                    typingIndicator.classList.remove('active');
+                }
+            }
+
+            function sendTypingStatus(isTyping) {
+                if (conn && conn.open) {
+                    conn.send({
+                        type: 'typing',
+                        isTyping: isTyping
+                    });
+                }
+            }
+
+            // Typing detection
+            messageInput.addEventListener('input', () => {
+                if (!isTyping && messageInput.value.length > 0) {
+                    isTyping = true;
+                    sendTypingStatus(true);
+                }
+                
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                    if (isTyping) {
+                        isTyping = false;
+                        sendTypingStatus(false);
+                    }
+                }, 1000);
+            });
+
+            // Send message on Enter key or button click
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            sendMessageBtn.addEventListener('click', sendMessage);
+
+            // Disconnect from chat
+            disconnectBtn.addEventListener('click', disconnectChat);
+
+            function disconnectChat() {
+                if (conn) {
+                    conn.close();
+                    conn = null;
+                }
+                if (peer) {
+                    peer.destroy();
+                    peer = null;
+                }
+                
+                chatPanel.classList.add('hidden');
+                connectionPanel.classList.remove('hidden');
+                roomInfo.classList.add('hidden');
+                messagesContainer.innerHTML = '';
+                const newEmptyState = document.createElement('div');
+                newEmptyState.className = 'flex justify-center items-center h-full text-gray-400';
+                newEmptyState.id = 'emptyState';
+                newEmptyState.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-comment-dots text-4xl mb-2"></i>
+                        <p>Start chatting with your peer</p>
+                    </div>
+                `;
+                messagesContainer.appendChild(newEmptyState);
+                
+                createRoomBtn.disabled = false;
+                createRoomBtn.innerHTML = '<i class="fas fa-plus-circle mr-2"></i> Create New Room';
+                joinRoomBtn.disabled = false;
+                joinRoomBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Join Room';
+                joinRoomInput.value = '';
+            }
+
+            // Initialize emoji picker
+            initEmojiPicker();
+        });
+    </script>
+</body>
+</html>
