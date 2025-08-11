@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your exact age in years, months, days, hours and minutes. Find out how old you are or time until your next birthday.">
+    <meta name="keywords" content="age calculator, birthday calculator, how old am I, date calculator, time calculator">
+    <title>Age Calculator | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .age-result { transition: all 0.5s ease; }
+        .flip-in {
+            animation: flipIn 0.5s ease-out forwards;
+        }
+        @keyframes flipIn {
+            from { transform: rotateX(90deg); opacity: 0; }
+            to { transform: rotateX(0deg); opacity: 1; }
+        }
+        @media (max-width: 640px) {
+            .calculator-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (same as main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-birthday-cake text-blue-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Age Calculator</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Calculate your exact age in years, months, days, hours and minutes. Find out how old you are or time until your next birthday.
+            </p>
+        </div>
+
+
+        <!-- Calculator Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 calculator-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="birthDate" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            <input type="date" id="birthDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                       
+                        <div>
+                            <label for="compareDate" class="block text-sm font-medium text-gray-700 mb-1">Age at Date (Optional)</label>
+                            <input type="date" id="compareDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <p class="text-xs text-gray-500 mt-1">Leave empty to calculate age as of today</p>
+                        </div>
+                       
+                        <div class="flex items-center">
+                            <input type="checkbox" id="showTime" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="showTime" class="ml-2 block text-sm text-gray-700">Include time (hours, minutes, seconds)</label>
+                        </div>
+                       
+                        <div class="flex gap-3">
+                            <button id="calculateBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
+                                <i class="fas fa-calculator mr-2"></i> Calculate Age
+                            </button>
+                            <button id="resetBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                   
+                    <!-- Fun Facts Section -->
+                    <div class="mt-8 hidden" id="funFactsSection">
+                        <h3 class="font-medium text-gray-700 mb-3">Fun Facts</h3>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <ul class="space-y-2 text-sm" id="funFactsList">
+                                <!-- Fun facts will be added here dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Results Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-6 h-full bg-gray-50">
+                        <div class="text-center">
+                            <h3 class="font-medium text-gray-700 mb-4">Your Age Is</h3>
+                            <div id="ageResults" class="space-y-4">
+                                <div class="text-center p-6 text-gray-500">
+                                    <i class="fas fa-calculator text-4xl mb-3 text-blue-400"></i>
+                                    <p>Your age results will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <!-- Next Birthday Section -->
+                        <div class="mt-8 hidden" id="nextBirthdaySection">
+                            <h3 class="font-medium text-gray-700 mb-3 text-center">Next Birthday</h3>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 text-center">
+                                <div id="nextBirthdayInfo" class="text-sm">
+                                    <!-- Next birthday info will be added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Age Calculator</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Enter Birth Date</h3>
+                        <p class="text-gray-600 text-sm">Select your date of birth using the date picker or type it in.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Optional: Compare Date</h3>
+                        <p class="text-gray-600 text-sm">Select another date to calculate your age at a specific point in time.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Get Results</h3>
+                        <p class="text-gray-600 text-sm">Click "Calculate Age" to see your exact age and fun facts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- Zodiac Section -->
+        <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hidden" id="zodiacSection">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Zodiac Information</h2>
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/3 text-center mb-4 md:mb-0">
+                        <div id="zodiacSymbol" class="w-24 h-24 mx-auto flex items-center justify-center text-5xl mb-2"></div>
+                        <h3 id="zodiacSign" class="text-lg font-medium"></h3>
+                        <p id="zodiacDateRange" class="text-sm text-gray-600"></p>
+                    </div>
+                    <div class="md:w-2/3 md:pl-6">
+                        <h4 class="font-medium text-gray-700 mb-2">Traits</h4>
+                        <p id="zodiacTraits" class="text-sm text-gray-600 mb-4"></p>
+                        <h4 class="font-medium text-gray-700 mb-2">Compatibility</h4>
+                        <p id="zodiacCompatibility" class="text-sm text-gray-600"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (same as main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                       <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Age Calculator -->
+    <script>
+        // Mobile menu toggle (same as main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+
+        // Age Calculator Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const birthDateInput = document.getElementById('birthDate');
+            const compareDateInput = document.getElementById('compareDate');
+            const showTimeCheckbox = document.getElementById('showTime');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const ageResults = document.getElementById('ageResults');
+            const nextBirthdaySection = document.getElementById('nextBirthdaySection');
+            const nextBirthdayInfo = document.getElementById('nextBirthdayInfo');
+            const funFactsSection = document.getElementById('funFactsSection');
+            const funFactsList = document.getElementById('funFactsList');
+            const zodiacSection = document.getElementById('zodiacSection');
+            const zodiacSymbol = document.getElementById('zodiacSymbol');
+            const zodiacSign = document.getElementById('zodiacSign');
+            const zodiacDateRange = document.getElementById('zodiacDateRange');
+            const zodiacTraits = document.getElementById('zodiacTraits');
+            const zodiacCompatibility = document.getElementById('zodiacCompatibility');
+
+
+            // Set default dates
+            const today = new Date();
+            const defaultBirthDate = new Date();
+            defaultBirthDate.setFullYear(today.getFullYear() - 25);
+           
+            // Format dates for input fields (YYYY-MM-DD)
+            birthDateInput.valueAsDate = defaultBirthDate;
+            compareDateInput.valueAsDate = today;
+
+
+            // Calculate age when button is clicked
+            calculateBtn.addEventListener('click', calculateAge);
+           
+            // Reset form
+            resetBtn.addEventListener('click', resetForm);
+           
+            // Also calculate when Enter key is pressed
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateAge();
+                }
+            });
+
+
+            function calculateAge() {
+                const birthDate = new Date(birthDateInput.value);
+                const compareDate = compareDateInput.value ? new Date(compareDateInput.value) : new Date();
+                const showTime = showTimeCheckbox.checked;
+               
+                // Validate dates
+                if (!birthDateInput.value) {
+                    alert('Please enter your date of birth');
+                    return;
+                }
+               
+                if (birthDate > compareDate) {
+                    alert('Birth date cannot be in the future');
+                    return;
+                }
+               
+                // Calculate age
+                const age = getAge(birthDate, compareDate, showTime);
+               
+                // Display results with animation
+                displayResults(age, birthDate, compareDate, showTime);
+               
+                // Show fun facts and zodiac info
+                showAdditionalInfo(birthDate);
+            }
+
+
+            function getAge(birthDate, compareDate, showTime) {
+                let years = compareDate.getFullYear() - birthDate.getFullYear();
+                let months = compareDate.getMonth() - birthDate.getMonth();
+                let days = compareDate.getDate() - birthDate.getDate();
+                let hours = 0, minutes = 0, seconds = 0;
+               
+                // Adjust for negative months or days
+                if (months < 0 || (months === 0 && days < 0)) {
+                    years--;
+                    months += 12;
+                }
+               
+                if (days < 0) {
+                    const lastMonth = new Date(compareDate.getFullYear(), compareDate.getMonth(), 0);
+                    days += lastMonth.getDate();
+                    months--;
+                }
+               
+                // Calculate time if needed
+                if (showTime) {
+                    hours = compareDate.getHours() - birthDate.getHours();
+                    minutes = compareDate.getMinutes() - birthDate.getMinutes();
+                    seconds = compareDate.getSeconds() - birthDate.getSeconds();
+                   
+                    if (seconds < 0) {
+                        seconds += 60;
+                        minutes--;
+                    }
+                   
+                    if (minutes < 0) {
+                        minutes += 60;
+                        hours--;
+                    }
+                   
+                    if (hours < 0) {
+                        hours += 24;
+                        days--;
+                    }
+                }
+               
+                return {
+                    years,
+                    months,
+                    days,
+                    hours,
+                    minutes,
+                    seconds,
+                    totalDays: Math.floor((compareDate - birthDate) / (1000 * 60 * 60 * 24)),
+                    totalHours: Math.floor((compareDate - birthDate) / (1000 * 60 * 60)),
+                    totalMinutes: Math.floor((compareDate - birthDate) / (1000 * 60)),
+                    totalSeconds: Math.floor((compareDate - birthDate) / 1000)
+                };
+            }
+
+
+            function displayResults(age, birthDate, compareDate, showTime) {
+                // Clear previous results
+                ageResults.innerHTML = '';
+               
+                // Main age display
+                const mainAgeDiv = document.createElement('div');
+                mainAgeDiv.className = 'age-result flip-in bg-white p-4 rounded-lg border border-gray-200 shadow-sm';
+                mainAgeDiv.innerHTML = `
+                    <div class="text-3xl font-bold text-blue-600 mb-2">${age.years}</div>
+                    <div class="text-sm text-gray-600">Years</div>
+                `;
+                ageResults.appendChild(mainAgeDiv);
+               
+                // Detailed age breakdown
+                const detailsDiv = document.createElement('div');
+                detailsDiv.className = 'grid grid-cols-2 md:grid-cols-3 gap-3 mt-4';
+               
+                const timeUnits = [
+                    { value: age.months, unit: 'Months' },
+                    { value: age.days, unit: 'Days' }
+                ];
+               
+                if (showTime) {
+                    timeUnits.push(
+                        { value: age.hours, unit: 'Hours' },
+                        { value: age.minutes, unit: 'Minutes' },
+                        { value: age.seconds, unit: 'Seconds' }
+                    );
+                }
+               
+                timeUnits.forEach(unit => {
+                    const unitDiv = document.createElement('div');
+                    unitDiv.className = 'age-result flip-in bg-white p-3 rounded-lg border border-gray-200 shadow-sm text-center';
+                    unitDiv.innerHTML = `
+                        <div class="text-xl font-bold text-gray-800">${unit.value}</div>
+                        <div class="text-xs text-gray-600">${unit.unit}</div>
+                    `;
+                    detailsDiv.appendChild(unitDiv);
+                });
+               
+                // Total counts
+                const totalsDiv = document.createElement('div');
+                totalsDiv.className = 'grid grid-cols-2 gap-3 mt-4';
+               
+                const totalUnits = [
+                    { value: age.totalDays, unit: 'Total Days' },
+                    { value: age.totalHours, unit: 'Total Hours' }
+                ];
+               
+                if (showTime) {
+                    totalUnits.push(
+                        { value: age.totalMinutes, unit: 'Total Minutes' },
+                        { value: age.totalSeconds, unit: 'Total Seconds' }
+                    );
+                }
+               
+                totalUnits.forEach(unit => {
+                    const totalDiv = document.createElement('div');
+                    totalDiv.className = 'age-result flip-in bg-blue-50 p-3 rounded-lg border border-blue-100 text-center';
+                    totalDiv.innerHTML = `
+                        <div class="text-lg font-medium text-blue-700">${unit.value.toLocaleString()}</div>
+                        <div class="text-xs text-blue-600">${unit.unit}</div>
+                    `;
+                    totalsDiv.appendChild(totalDiv);
+                });
+               
+                ageResults.appendChild(detailsDiv);
+                ageResults.appendChild(totalsDiv);
+               
+                // Calculate next birthday
+                const now = new Date();
+                let nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+               
+                if (nextBirthday < now) {
+                    nextBirthday = new Date(now.getFullYear() + 1, birthDate.getMonth(), birthDate.getDate());
+                }
+               
+                const daysUntilBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+                const nextAge = now.getFullYear() - birthDate.getFullYear() + (nextBirthday < now ? 1 : 0);
+               
+                nextBirthdayInfo.innerHTML = `
+                    <div class="text-lg font-medium text-gray-800 mb-1">In ${daysUntilBirthday} days</div>
+                    <div class="text-sm text-gray-600 mb-2">${nextBirthday.toDateString()}</div>
+                    <div class="text-sm">You'll be <span class="font-medium">${nextAge}</span> years old</div>
+                `;
+               
+                nextBirthdaySection.classList.remove('hidden');
+            }
+
+
+            function showAdditionalInfo(birthDate) {
+                // Generate fun facts
+                funFactsList.innerHTML = '';
+               
+                const facts = [
+                    `You've lived through approximately ${Math.floor((new Date() - birthDate) / (1000 * 60 * 60 * 24 * 365.25))} orbits around the sun.`,
+                    `Your heart has beaten about ${Math.floor((new Date() - birthDate) / 1000 * 72)} times (assuming 72 bpm).`,
+                    `You've blinked approximately ${Math.floor((new Date() - birthDate) / (1000 * 60 * 60 * 16 * 1000) * 1000)} times.`,
+                    `You've slept about ${Math.floor((new Date() - birthDate) / (1000 * 60 * 60 * 24 * 365.25 * 8))} years (assuming 8 hours/day).`
+                ];
+               
+                facts.forEach(fact => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-start';
+                    li.innerHTML = `<i class="fas fa-check text-green-500 mt-1 mr-2"></i> ${fact}`;
+                    funFactsList.appendChild(li);
+                });
+               
+                funFactsSection.classList.remove('hidden');
+               
+                // Determine zodiac sign
+                setZodiacInfo(birthDate);
+                zodiacSection.classList.remove('hidden');
+            }
+
+
+            function setZodiacInfo(birthDate) {
+                const month = birthDate.getMonth() + 1;
+                const day = birthDate.getDate();
+                let sign = '';
+                let symbol = '';
+                let dateRange = '';
+                let traits = '';
+                let compatibility = '';
+               
+                // Determine zodiac sign
+                if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+                    sign = 'Aries';
+                    symbol = '♈';
+                    dateRange = 'March 21 - April 19';
+                    traits = 'Courageous, determined, confident, enthusiastic, optimistic, honest, passionate.';
+                    compatibility = 'Best with Leo and Sagittarius';
+                } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+                    sign = 'Taurus';
+                    symbol = '♉';
+                    dateRange = 'April 20 - May 20';
+                    traits = 'Reliable, patient, practical, devoted, responsible, stable.';
+                    compatibility = 'Best with Virgo and Capricorn';
+                } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
+                    sign = 'Gemini';
+                    symbol = '♊';
+                    dateRange = 'May 21 - June 20';
+                    traits = 'Gentle, affectionate, curious, adaptable, ability to learn quickly and exchange ideas.';
+                    compatibility = 'Best with Libra and Aquarius';
+                } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
+                    sign = 'Cancer';
+                    symbol = '♋';
+                    dateRange = 'June 21 - July 22';
+                    traits = 'Tenacious, highly imaginative, loyal, emotional, sympathetic, persuasive.';
+                    compatibility = 'Best with Scorpio and Pisces';
+                } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
+                    sign = 'Leo';
+                    symbol = '♌';
+                    dateRange = 'July 23 - August 22';
+                    traits = 'Creative, passionate, generous, warm-hearted, cheerful, humorous.';
+                    compatibility = 'Best with Aries and Sagittarius';
+                } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+                    sign = 'Virgo';
+                    symbol = '♍';
+                    dateRange = 'August 23 - September 22';
+                    traits = 'Loyal, analytical, kind, hardworking, practical.';
+                    compatibility = 'Best with Taurus and Capricorn';
+                } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
+                    sign = 'Libra';
+                    symbol = '♎';
+                    dateRange = 'September 23 - October 22';
+                    traits = 'Cooperative, diplomatic, gracious, fair-minded, social.';
+                    compatibility = 'Best with Gemini and Aquarius';
+                } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
+                    sign = 'Scorpio';
+                    symbol = '♏';
+                    dateRange = 'October 23 - November 21';
+                    traits = 'Resourceful, brave, passionate, stubborn, a true friend.';
+                    compatibility = 'Best with Cancer and Pisces';
+                } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
+                    sign = 'Sagittarius';
+                    symbol = '♐';
+                    dateRange = 'November 22 - December 21';
+                    traits = 'Generous, idealistic, great sense of humor.';
+                    compatibility = 'Best with Aries and Leo';
+                } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+                    sign = 'Capricorn';
+                    symbol = '♑';
+                    dateRange = 'December 22 - January 19';
+                    traits = 'Responsible, disciplined, self-control, good managers.';
+                    compatibility = 'Best with Taurus and Virgo';
+                } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
+                    sign = 'Aquarius';
+                    symbol = '♒';
+                    dateRange = 'January 20 - February 18';
+                    traits = 'Progressive, original, independent, humanitarian.';
+                    compatibility = 'Best with Gemini and Libra';
+                } else if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) {
+                    sign = 'Pisces';
+                    symbol = '♓';
+                    dateRange = 'February 19 - March 20';
+                    traits = 'Compassionate, artistic, intuitive, gentle, wise, musical.';
+                    compatibility = 'Best with Cancer and Scorpio';
+                }
+               
+                // Update zodiac info
+                zodiacSymbol.textContent = symbol;
+                zodiacSign.textContent = sign;
+                zodiacDateRange.textContent = dateRange;
+                zodiacTraits.textContent = traits;
+                zodiacCompatibility.textContent = compatibility;
+            }
+
+
+            function resetForm() {
+                birthDateInput.valueAsDate = defaultBirthDate;
+                compareDateInput.valueAsDate = today;
+                showTimeCheckbox.checked = false;
+               
+                ageResults.innerHTML = `
+                    <div class="text-center p-6 text-gray-500">
+                        <i class="fas fa-calculator text-4xl mb-3 text-blue-400"></i>
+                        <p>Your age results will appear here</p>
+                    </div>
+                `;
+               
+                nextBirthdaySection.classList.add('hidden');
+                funFactsSection.classList.add('hidden');
+                zodiacSection.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+

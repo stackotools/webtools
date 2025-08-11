@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact StackoTools - Get in touch with our team for questions, feedback, or custom tool requests. We're here to help with your online tool needs.">
+    <meta name="keywords" content="contact StackoTools, online tools support, StackoTools feedback, custom tool development, website tools contact">
+    <title>Contact Us | StackoTools - Get in Touch With Our Team</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay.open {
+            display: block;
+            opacity: 0.5;
+        }
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* New styles for the updated design */
+        .contact-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        .faq-item {
+            transition: all 0.2s ease;
+        }
+        .faq-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        .animate-bounce {
+            animation: bounce 0.5s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header Section (Same as before) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo on left -->
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+
+            <!-- Menu button on right for mobile -->
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Desktop navigation (hidden on mobile) -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="text-blue-600 font-medium">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu (Same as before) -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+           
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded bg-blue-50 text-blue-600">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Hero Section (Updated) -->
+    <section class="gradient-bg text-white py-16 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Get in Touch With StackoTools</h1>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto">Have questions, feedback, or need a custom tool? Our team is ready to assist you.</p>
+        </div>
+    </section>
+
+    <!-- Contact Form Section (Updated) -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Contact Form -->
+                <div class="lg:w-2/3">
+                    <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Send Us a Message</h2>
+                        <p class="text-gray-600 mb-6">We typically respond within 24 hours</p>
+                       
+                        <form id="contact-form" class="space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="name" name="name" required
+                                        class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                </div>
+                               
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                                    <input type="email" id="email" name="email" required
+                                        class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                </div>
+                            </div>
+                           
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject <span class="text-red-500">*</span></label>
+                                <select id="subject" name="subject" required
+                                    class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="" disabled selected>Select a subject</option>
+                                    <option value="feedback">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="custom-tool">Custom Tool Request</option>
+                                    <option value="partnership">Business Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                           
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Message <span class="text-red-500">*</span></label>
+                                <textarea id="message" name="message" rows="5" required
+                                    class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"></textarea>
+                            </div>
+                           
+                            <div>
+                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center">
+                                    Send Message <i class="fas fa-paper-plane ml-2 animate-bounce"></i>
+                                </button>
+                            </div>
+                        </form>
+                       
+                        <div id="form-success" class="hidden mt-6 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-xl mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">Message Sent Successfully!</h4>
+                                    <p class="text-sm">Thank you for contacting us. We'll get back to you soon.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Info Cards -->
+                <div class="lg:w-1/3 space-y-5">
+                    <div class="contact-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start mb-3">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-blue-600 text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">General Inquiries</h3>
+                                <p class="text-gray-600 text-sm">For questions and feedback</p>
+                            </div>
+                        </div>
+                        <a href="mailto:contact@stackotools.com" class="text-blue-600 hover:text-blue-700 font-medium">contact@stackotools.com</a>
+                    </div>
+                    
+                    <div class="contact-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start mb-3">
+                            <div class="bg-green-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-headset text-green-600 text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Technical Support</h3>
+                                <p class="text-gray-600 text-sm">For tool issues and bugs</p>
+                            </div>
+                        </div>
+                        <a href="mailto:support@stackotools.com" class="text-blue-600 hover:text-blue-700 font-medium">support@stackotools.com</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section (New) -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">Frequently Asked Questions</h2>
+                <p class="text-gray-600">Find answers to common questions about our services</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="faq-item bg-white p-5 rounded-lg border border-gray-200">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left">
+                        <h3 class="font-medium text-gray-800">How quickly will I receive a response to my message?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-content mt-3 hidden">
+                        <p class="text-gray-600">We typically respond to all inquiries within 24 hours on business days. For urgent matters, please mark your message as "Urgent" in the subject line.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white p-5 rounded-lg border border-gray-200">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left">
+                        <h3 class="font-medium text-gray-800">Do you offer custom tool development services?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-content mt-3 hidden">
+                        <p class="text-gray-600">Yes! We specialize in creating custom online tools tailored to your specific needs. Contact us with your requirements and we'll provide a free consultation.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white p-5 rounded-lg border border-gray-200">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left">
+                        <h3 class="font-medium text-gray-800">Are StackoTools completely free to use?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-content mt-3 hidden">
+                        <p class="text-gray-600">All our basic tools are 100% free with no hidden charges. We may introduce premium features in the future, but core functionality will always remain free.</p>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section (New) -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Need Immediate Assistance?</h2>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto mb-8">Our dedicated support team is available around the clock to help with urgent issues.</p>
+            <a href="mailto:support@stackotools.com" class="inline-block bg-white text-blue-600 font-medium px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                Contact Support Now <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer (Same as before) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+       
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+       
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+       
+        // Close sidebar when clicking on a link
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        });
+       
+        // Contact form submission
+        const contactForm = document.getElementById('contact-form');
+        const formSuccess = document.getElementById('form-success');
+       
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+           
+            // Here you would typically send the form data to your server
+            // For this example, we'll just show the success message
+           
+            // Reset form
+            contactForm.reset();
+           
+            // Show success message
+            formSuccess.classList.remove('hidden');
+            formSuccess.scrollIntoView({ behavior: 'smooth' });
+           
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                formSuccess.classList.add('hidden');
+            }, 5000);
+        });
+        
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About StackoTools - Your free online tools platform. Learn about our mission to provide 100+ free tools with no registration required.">
+    <meta name="keywords" content="free online tools, about StackoTools, no registration tools, web utilities, PDF tools, image tools, calculators">
+    <meta name="author" content="StackoTools">
+    <meta property="og:title" content="About StackoTools - Free Online Tools for Everyone">
+    <meta property="og:description" content="Learn about our mission to provide 100+ free tools with no registration required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stackotools.com/about">
+    <meta property="og:image" content="https://stackotools.com/images/stackotools-og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>About StackoTools - Free Online Tools for Everyone | No Registration Required</title>
+    <link rel="canonical" href="https://stackotools.com/about">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Custom styles */
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay.open {
+            display: block;
+            opacity: 0.5;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .breadcrumb {
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb span {
+            color: #6b7280;
+        }
+        .section-divider {
+            height: 80px;
+            background: linear-gradient(to bottom right, transparent 49.5%, white 50%);
+        }
+        .section-divider.reverse {
+            background: linear-gradient(to bottom right, white 49.5%, transparent 50%);
+        }
+        
+        /* SVG background patterns - copyright free */
+        .pattern-dots {
+            background-image: radial-gradient(currentColor 1px, transparent 1px);
+            background-size: 16px 16px;
+            color: rgba(59, 130, 246, 0.05);
+        }
+        .pattern-grid {
+            background-image: linear-gradient(to right, currentColor 1px, transparent 1px),
+                              linear-gradient(to bottom, currentColor 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (Consistent with main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center" aria-label="StackoTools Home">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg" aria-hidden="true"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+
+            <button id="menu-toggle" class="md:hidden text-gray-600" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-blue-600 font-medium" aria-current="page">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu (Consistent with main site) -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-40">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg" aria-hidden="true"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500" aria-hidden="true"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500" aria-hidden="true"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500" aria-hidden="true"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500" aria-hidden="true"></i> Text Tools</a></li>
+            </ul>
+           
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded bg-blue-50 text-blue-600" aria-current="page">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-30"></div>
+
+    <!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="w-full py-3">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <ol class="flex items-center space-x-2">
+      <li>
+        <div class="flex items-center">
+          <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+          <span class="mx-2 text-gray-400">/</span>
+        </div>
+      </li>
+      <li aria-current="page">
+        <span class="text-gray-600">About</span>
+      </li>
+    </ol>
+  </div>
+</nav>
+
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24 pattern-dots">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center animate-fade">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">About <span class="text-blue-600">StackoTools</span></h1>
+                <p class="text-lg text-gray-600 mb-6">Your free, no-registration online tools platform with 100+ utilities to simplify your work</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <a href="#our-tools" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                        Explore Tools
+                    </a>
+                    <a href="#mission" class="bg-white hover:bg-gray-100 text-gray-800 px-6 py-2 rounded-lg border border-gray-200 transition-colors">
+                        Our Mission
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="section-divider"></div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="py-16 bg-white" id="mission">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12 animate-fade delay-100">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">Our Story</h2>
+                    <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                </div>
+               
+                <div class="flex flex-col md:flex-row items-center gap-8 animate-fade delay-200">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <div class="bg-blue-50 rounded-xl p-8 h-full flex items-center justify-center pattern-grid">
+                            <div class="text-center">
+                                <i class="fas fa-lightbulb text-6xl text-yellow-400 mb-4" aria-hidden="true"></i>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Founded in 2023</h3>
+                                <p class="text-gray-600">With a vision to simplify digital tasks</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Simplifying Your Digital Life</h3>
+                        <p class="text-gray-600 mb-4">StackoTools was founded with a simple mission: to provide high-quality, free online tools that anyone can use without registration or hidden fees.</p>
+                        <p class="text-gray-600 mb-4">We noticed that many online tools required sign-ups, had annoying ads, or limited functionality for free users. We wanted to create something better.</p>
+                        <p class="text-gray-600">Today, StackoTools offers over 100 completely free tools that help with everyday tasks, from PDF conversions to image editing, calculations, and more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section (Redesigned) -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white relative">
+  <div class="section-divider reverse"></div>
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto text-center mb-16 animate-fade-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Why Choose StackoTools?</h2>
+      <p class="text-lg text-gray-600">Experience the smarter way to use online tools</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature Card -->
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-500 to-blue-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+          <i class="fas fa-user-shield text-white text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">No Registration</h3>
+        <p class="text-center text-gray-600 text-sm">Use tools instantly—no login, no data tracking.</p>
+      </div>
+
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-500 to-green-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+          <i class="fas fa-lock-open text-white text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">100% Free</h3>
+        <p class="text-center text-gray-600 text-sm">No hidden charges—everything is free to use.</p>
+      </div>
+
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-purple-500 to-purple-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+          <i class="fas fa-mobile-alt text-white text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">Mobile Friendly</h3>
+        <p class="text-center text-gray-600 text-sm">Optimized for all devices: phones, tablets, and desktops.</p>
+      </div>
+
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-red-500 to-red-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+          <i class="fas fa-bolt text-white text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">Fast Processing</h3>
+        <p class="text-center text-gray-600 text-sm">Blazing-fast tool performance with zero delay.</p>
+      </div>
+
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-orange-500 to-orange-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+            <i class="fas fa-toolbox text-orange-800 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">100+ Tools</h3>
+        <p class="text-center text-gray-600 text-sm">All-in-one hub with tools for every task you can think of.</p>
+      </div>
+
+      <div class="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-teal-500 to-teal-300 rounded-full flex items-center justify-center shadow-lg mb-6">
+            <i class="fas fa-sync-alt text-teal-800 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center text-gray-800 mb-3">Regular Updates</h3>
+        <p class="text-center text-gray-600 text-sm">We frequently add new tools and polish existing ones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Our Tools Categories (Redesigned) -->
+<section class="py-20 bg-gradient-to-br from-white via-gray-50 to-white" id="our-tools">
+  <div class="container mx-auto px-6">
+    <!-- Heading -->
+    <div class="max-w-4xl mx-auto text-center mb-16 animate-fade-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Our Tools Categories</h2>
+      <p class="text-lg text-gray-600">Explore the different types of tools we offer</p>
+    </div>
+
+    <!-- Tool Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Tool Card -->
+      <a href="calculator.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Calculators</h3>
+        </div>
+        <p class="text-gray-600 text-sm">Financial, date, time, math and conversion calculators for all your needs.</p>
+      </a>
+
+      <a href="pdf-tools.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">PDF Tools</h3>
+        </div>
+        <p class="text-gray-600 text-sm">Convert, merge, split, compress and edit PDF files online.</p>
+      </a>
+
+      <a href="image-tools.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-image"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Image Tools</h3>
+        </div>
+        <p class="text-gray-600 text-sm">Resize, convert, compress and edit images in various formats.</p>
+      </a>
+
+      <a href="text-tools.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-font"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Text Tools</h3>
+        </div>
+        <p class="text-gray-600 text-sm">Word counters, case converters, generators and text manipulation tools.</p>
+      </a>
+
+      <a href="converters.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-random"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Converters</h3>
+        </div>
+        <p class="text-gray-600 text-sm">Unit, currency, color and file format converters.</p>
+      </a>
+
+      <a href="developer-tools.html" class="group bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
+        <div class="flex items-center mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 flex items-center justify-center text-white text-xl shadow-lg mr-4 transition-transform group-hover:rotate-6">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Developer Tools</h3>
+        </div>
+        <p class="text-gray-600 text-sm">HTML, CSS, JavaScript and other tools for developers.</p>
+      </a>
+    </div>
+
+    <!-- Button -->
+    <div class="text-center mt-14">
+      <a href="all-tools.html" class="inline-flex items-center gap-2 px-6 py-3 text-white text-base font-semibold bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg transition duration-300">
+        Explore All Tools <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-6 animate-fade delay-100">
+                    <div class="text-3xl md:text-4xl font-bold mb-2">100+</div>
+                    <div class="text-sm md:text-base">Free Tools</div>
+                </div>
+                <div class="p-6 animate-fade delay-150">
+                    <div class="text-3xl md:text-4xl font-bold mb-2">0</div>
+                    <div class="text-sm md:text-base">Sign-ups Required</div>
+                </div>
+                <div class="p-6 animate-fade delay-200">
+                    <div class="text-3xl md:text-4xl font-bold mb-2">24/7</div>
+                    <div class="text-sm md:text-base">Accessibility</div>
+                </div>
+                <div class="p-6 animate-fade delay-250">
+                    <div class="text-3xl md:text-4xl font-bold mb-2">100%</div>
+                    <div class="text-sm md:text-base">Free Forever</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Have Questions or Suggestions?</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">We'd love to hear from you! Contact us with your feedback or tool requests.</p>
+            <a href="contact.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                Contact Us <i class="fas fa-envelope ml-2" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="image-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle (consistent with main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+       
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            const isOpen = sidebar.classList.contains('open');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+       
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+       
+        // Close sidebar when clicking on a link
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+       
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+               
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+               
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                   
+                    // Update URL without page jump
+                    if (history.pushState) {
+                        history.pushState(null, null, targetId);
+                    } else {
+                        location.hash = targetId;
+                    }
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const animateElements = document.querySelectorAll('.animate-fade');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animateElements.forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-500', 'ease-out');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

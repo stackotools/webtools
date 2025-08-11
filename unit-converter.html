@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online unit converter tool. Convert between length, weight, temperature, area, volume, and more. Fast, accurate, and easy to use.">
+    <meta name="keywords" content="unit converter, measurement converter, length converter, weight converter, temperature converter, online calculator">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Unit Converter | StackoTools - Free Online Tools">
+    <meta property="og:description" content="Convert between different units of measurement quickly and easily with our free online unit converter.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://StackoTools.com/unit-converter">
+    <link rel="canonical" href="https://StackoTools.com/unit-converter">
+    <title>Unit Converter | Length, Weight, Temperature | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .converter-box { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .category-btn.active { background-color: #3b82f6; color: white; }
+        @media (max-width: 640px) {
+            .converter-container { flex-direction: column; }
+            .input-output-group { flex-direction: column; }
+            .swap-btn { transform: rotate(90deg); margin: 10px 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (same as main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exchange-alt text-purple-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Unit Converter</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Convert between different units of measurement including length, weight, temperature, area, volume, and more.
+            </p>
+        </div>
+
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6">
+                <!-- Category Selection -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="category-btn active px-4 py-2 rounded-lg font-medium" data-category="length">Length</button>
+                    <button class="category-btn px-4 py-2 rounded-lg font-medium" data-category="weight">Weight</button>
+                    <button class="category-btn px-4 py-2 rounded-lg font-medium" data-category="temperature">Temperature</button>
+                    <button class="category-btn px-4 py-2 rounded-lg font-medium" data-category="area">Area</button>
+                    <button class="category-btn px-4 py-2 rounded-lg font-medium" data-category="volume">Volume</button>
+                    <button class="category-btn px-4 py-2 rounded-lg font-medium" data-category="speed">Speed</button>
+                </div>
+
+
+                <!-- Converter Box -->
+                <div class="converter-box bg-gray-50 rounded-lg p-6">
+                    <!-- Length Converter (Default) -->
+                    <div id="length-converter" class="converter-section">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="1">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="millimeter">Millimeter (mm)</option>
+                                    <option value="centimeter">Centimeter (cm)</option>
+                                    <option value="meter" selected>Meter (m)</option>
+                                    <option value="kilometer">Kilometer (km)</option>
+                                    <option value="inch">Inch (in)</option>
+                                    <option value="foot">Foot (ft)</option>
+                                    <option value="yard">Yard (yd)</option>
+                                    <option value="mile">Mile (mi)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="millimeter">Millimeter (mm)</option>
+                                    <option value="centimeter" selected>Centimeter (cm)</option>
+                                    <option value="meter">Meter (m)</option>
+                                    <option value="kilometer">Kilometer (km)</option>
+                                    <option value="inch">Inch (in)</option>
+                                    <option value="foot">Foot (ft)</option>
+                                    <option value="yard">Yard (yd)</option>
+                                    <option value="mile">Mile (mi)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Weight Converter (Hidden by default) -->
+                    <div id="weight-converter" class="converter-section hidden">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="1">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="milligram">Milligram (mg)</option>
+                                    <option value="gram">Gram (g)</option>
+                                    <option value="kilogram" selected>Kilogram (kg)</option>
+                                    <option value="ton">Metric Ton (t)</option>
+                                    <option value="ounce">Ounce (oz)</option>
+                                    <option value="pound">Pound (lb)</option>
+                                    <option value="stone">Stone (st)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="milligram">Milligram (mg)</option>
+                                    <option value="gram" selected>Gram (g)</option>
+                                    <option value="kilogram">Kilogram (kg)</option>
+                                    <option value="ton">Metric Ton (t)</option>
+                                    <option value="ounce">Ounce (oz)</option>
+                                    <option value="pound">Pound (lb)</option>
+                                    <option value="stone">Stone (st)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Temperature Converter (Hidden by default) -->
+                    <div id="temperature-converter" class="converter-section hidden">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="0">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="celsius" selected>Celsius (°C)</option>
+                                    <option value="fahrenheit">Fahrenheit (°F)</option>
+                                    <option value="kelvin">Kelvin (K)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="celsius">Celsius (°C)</option>
+                                    <option value="fahrenheit" selected>Fahrenheit (°F)</option>
+                                    <option value="kelvin">Kelvin (K)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Area Converter (Hidden by default) -->
+                    <div id="area-converter" class="converter-section hidden">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="1">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="square_millimeter">Square Millimeter (mm²)</option>
+                                    <option value="square_centimeter">Square Centimeter (cm²)</option>
+                                    <option value="square_meter" selected>Square Meter (m²)</option>
+                                    <option value="hectare">Hectare (ha)</option>
+                                    <option value="square_kilometer">Square Kilometer (km²)</option>
+                                    <option value="square_inch">Square Inch (in²)</option>
+                                    <option value="square_foot">Square Foot (ft²)</option>
+                                    <option value="acre">Acre (ac)</option>
+                                    <option value="square_mile">Square Mile (mi²)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="square_millimeter">Square Millimeter (mm²)</option>
+                                    <option value="square_centimeter" selected>Square Centimeter (cm²)</option>
+                                    <option value="square_meter">Square Meter (m²)</option>
+                                    <option value="hectare">Hectare (ha)</option>
+                                    <option value="square_kilometer">Square Kilometer (km²)</option>
+                                    <option value="square_inch">Square Inch (in²)</option>
+                                    <option value="square_foot">Square Foot (ft²)</option>
+                                    <option value="acre">Acre (ac)</option>
+                                    <option value="square_mile">Square Mile (mi²)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Volume Converter (Hidden by default) -->
+                    <div id="volume-converter" class="converter-section hidden">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="1">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="milliliter">Milliliter (ml)</option>
+                                    <option value="liter" selected>Liter (l)</option>
+                                    <option value="cubic_meter">Cubic Meter (m³)</option>
+                                    <option value="teaspoon">Teaspoon (tsp)</option>
+                                    <option value="tablespoon">Tablespoon (tbsp)</option>
+                                    <option value="fluid_ounce">Fluid Ounce (fl oz)</option>
+                                    <option value="cup">Cup (c)</option>
+                                    <option value="pint">Pint (pt)</option>
+                                    <option value="quart">Quart (qt)</option>
+                                    <option value="gallon">Gallon (gal)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="milliliter" selected>Milliliter (ml)</option>
+                                    <option value="liter">Liter (l)</option>
+                                    <option value="cubic_meter">Cubic Meter (m³)</option>
+                                    <option value="teaspoon">Teaspoon (tsp)</option>
+                                    <option value="tablespoon">Tablespoon (tbsp)</option>
+                                    <option value="fluid_ounce">Fluid Ounce (fl oz)</option>
+                                    <option value="cup">Cup (c)</option>
+                                    <option value="pint">Pint (pt)</option>
+                                    <option value="quart">Quart (qt)</option>
+                                    <option value="gallon">Gallon (gal)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Speed Converter (Hidden by default) -->
+                    <div id="speed-converter" class="converter-section hidden">
+                        <div class="input-output-group flex items-center">
+                            <div class="flex-1">
+                                <input type="number" class="input-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter value" value="1">
+                                <select class="input-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="meter_per_second" selected>Meter per second (m/s)</option>
+                                    <option value="kilometer_per_hour">Kilometer per hour (km/h)</option>
+                                    <option value="mile_per_hour">Mile per hour (mph)</option>
+                                    <option value="knot">Knot (kn)</option>
+                                    <option value="foot_per_second">Foot per second (ft/s)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn mx-4 bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <div class="flex-1">
+                                <input type="number" class="output-value w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Result" readonly>
+                                <select class="output-unit w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="meter_per_second">Meter per second (m/s)</option>
+                                    <option value="kilometer_per_hour" selected>Kilometer per hour (km/h)</option>
+                                    <option value="mile_per_hour">Mile per hour (mph)</option>
+                                    <option value="knot">Knot (kn)</option>
+                                    <option value="foot_per_second">Foot per second (ft/s)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Conversion Tables -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Common Unit Conversions</h2>
+               
+                <!-- Length Conversion Table -->
+                <div class="mb-8">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-3">Length Conversions</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Equals</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 inch</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">2.54 centimeters</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 foot</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">30.48 centimeters</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 yard</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">0.9144 meters</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 mile</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">1.60934 kilometers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <!-- Weight Conversion Table -->
+                <div class="mb-8">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-3">Weight Conversions</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Equals</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 ounce</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">28.3495 grams</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 pound</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">0.453592 kilograms</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 stone</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">6.35029 kilograms</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-700">1 ton (US)</td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">907.185 kilograms</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <!-- Temperature Conversion Info -->
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-3">Temperature Formulas</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li><strong>Celsius to Fahrenheit:</strong> °F = (°C × 9/5) + 32</li>
+                            <li><strong>Fahrenheit to Celsius:</strong> °C = (°F - 32) × 5/9</li>
+                            <li><strong>Celsius to Kelvin:</strong> K = °C + 273.15</li>
+                            <li><strong>Kelvin to Celsius:</strong> °C = K - 273.15</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Unit Converter</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Select Category</h3>
+                        <p class="text-gray-600 text-sm">Choose the type of measurement you want to convert (length, weight, temperature, etc.).</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Enter Value</h3>
+                        <p class="text-gray-600 text-sm">Type in the number you want to convert in the input field.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Select Units</h3>
+                        <p class="text-gray-600 text-sm">Choose the input and output units from the dropdown menus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (same as main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="unit-converter.html" class="text-gray-400 hover:text-white text-sm">Unit Converter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Unit Converter -->
+    <script>
+       
+        document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
+
+
+    menuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    });
+
+
+    overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
+
+
+    // Unit converter functionality
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const converterSections = document.querySelectorAll('.converter-section');
+   
+    // Show the selected category and hide others
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+           
+            // Get the category to show
+            const category = this.getAttribute('data-category');
+           
+            // Hide all converter sections
+            converterSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+           
+            // Show the selected converter section
+            document.getElementById(`${category}-converter`).classList.remove('hidden');
+           
+            // Trigger conversion for the newly shown section
+            triggerConversion(`${category}-converter`);
+        });
+    });
+   
+    // Function to handle unit conversions
+    function convertUnits(category, fromUnit, toUnit, value) {
+        value = parseFloat(value);
+        if (isNaN(value)) return '';
+       
+        // Conversion formulas for each category
+        const conversions = {
+            length: {
+                millimeter: {
+                    millimeter: v => v,
+                    centimeter: v => v / 10,
+                    meter: v => v / 1000,
+                    kilometer: v => v / 1000000,
+                    inch: v => v / 25.4,
+                    foot: v => v / 304.8,
+                    yard: v => v / 914.4,
+                    mile: v => v / 1609344
+                },
+                centimeter: {
+                    millimeter: v => v * 10,
+                    centimeter: v => v,
+                    meter: v => v / 100,
+                    kilometer: v => v / 100000,
+                    inch: v => v / 2.54,
+                    foot: v => v / 30.48,
+                    yard: v => v / 91.44,
+                    mile: v => v / 160934.4
+                },
+                meter: {
+                    millimeter: v => v * 1000,
+                    centimeter: v => v * 100,
+                    meter: v => v,
+                    kilometer: v => v / 1000,
+                    inch: v => v * 39.3701,
+                    foot: v => v * 3.28084,
+                    yard: v => v * 1.09361,
+                    mile: v => v / 1609.344
+                },
+                kilometer: {
+                    millimeter: v => v * 1000000,
+                    centimeter: v => v * 100000,
+                    meter: v => v * 1000,
+                    kilometer: v => v,
+                    inch: v => v * 39370.1,
+                    foot: v => v * 3280.84,
+                    yard: v => v * 1093.61,
+                    mile: v => v / 1.60934
+                },
+                inch: {
+                    millimeter: v => v * 25.4,
+                    centimeter: v => v * 2.54,
+                    meter: v => v * 0.0254,
+                    kilometer: v => v * 0.0000254,
+                    inch: v => v,
+                    foot: v => v / 12,
+                    yard: v => v / 36,
+                    mile: v => v / 63360
+                },
+                foot: {
+                    millimeter: v => v * 304.8,
+                    centimeter: v => v * 30.48,
+                    meter: v => v * 0.3048,
+                    kilometer: v => v * 0.0003048,
+                    inch: v => v * 12,
+                    foot: v => v,
+                    yard: v => v / 3,
+                    mile: v => v / 5280
+                },
+                yard: {
+                    millimeter: v => v * 914.4,
+                    centimeter: v => v * 91.44,
+                    meter: v => v * 0.9144,
+                    kilometer: v => v * 0.0009144,
+                    inch: v => v * 36,
+                    foot: v => v * 3,
+                    yard: v => v,
+                    mile: v => v / 1760
+                },
+                mile: {
+                    millimeter: v => v * 1609344,
+                    centimeter: v => v * 160934.4,
+                    meter: v => v * 1609.344,
+                    kilometer: v => v * 1.609344,
+                    inch: v => v * 63360,
+                    foot: v => v * 5280,
+                    yard: v => v * 1760,
+                    mile: v => v
+                }
+            },
+            weight: {
+                milligram: {
+                    milligram: v => v,
+                    gram: v => v / 1000,
+                    kilogram: v => v / 1000000,
+                    ton: v => v / 1000000000,
+                    ounce: v => v / 28349.5,
+                    pound: v => v / 453592,
+                    stone: v => v / 6350290
+                },
+                gram: {
+                    milligram: v => v * 1000,
+                    gram: v => v,
+                    kilogram: v => v / 1000,
+                    ton: v => v / 1000000,
+                    ounce: v => v / 28.3495,
+                    pound: v => v / 453.592,
+                    stone: v => v / 6350.29
+                },
+                kilogram: {
+                    milligram: v => v * 1000000,
+                    gram: v => v * 1000,
+                    kilogram: v => v,
+                    ton: v => v / 1000,
+                    ounce: v => v * 35.274,
+                    pound: v => v * 2.20462,
+                    stone: v => v / 6.35029
+                },
+                ton: {
+                    milligram: v => v * 1000000000,
+                    gram: v => v * 1000000,
+                    kilogram: v => v * 1000,
+                    ton: v => v,
+                    ounce: v => v * 35274,
+                    pound: v => v * 2204.62,
+                    stone: v => v * 157.473
+                },
+                ounce: {
+                    milligram: v => v * 28349.5,
+                    gram: v => v * 28.3495,
+                    kilogram: v => v * 0.0283495,
+                    ton: v => v * 0.0000283495,
+                    ounce: v => v,
+                    pound: v => v / 16,
+                    stone: v => v / 224
+                },
+                pound: {
+                    milligram: v => v * 453592,
+                    gram: v => v * 453.592,
+                    kilogram: v => v * 0.453592,
+                    ton: v => v * 0.000453592,
+                    ounce: v => v * 16,
+                    pound: v => v,
+                    stone: v => v / 14
+                },
+                stone: {
+                    milligram: v => v * 6350290,
+                    gram: v => v * 6350.29,
+                    kilogram: v => v * 6.35029,
+                    ton: v => v * 0.00635029,
+                    ounce: v => v * 224,
+                    pound: v => v * 14,
+                    stone: v => v
+                }
+            },
+            temperature: {
+                celsius: {
+                    celsius: v => v,
+                    fahrenheit: v => (v * 9/5) + 32,
+                    kelvin: v => v + 273.15
+                },
+                fahrenheit: {
+                    celsius: v => (v - 32) * 5/9,
+                    fahrenheit: v => v,
+                    kelvin: v => (v - 32) * 5/9 + 273.15
+                },
+                kelvin: {
+                    celsius: v => v - 273.15,
+                    fahrenheit: v => (v - 273.15) * 9/5 + 32,
+                    kelvin: v => v
+                }
+            },
+            area: {
+                square_millimeter: {
+                    square_millimeter: v => v,
+                    square_centimeter: v => v / 100,
+                    square_meter: v => v / 1000000,
+                    hectare: v => v / 10000000000,
+                    square_kilometer: v => v / 1000000000000,
+                    square_inch: v => v / 645.16,
+                    square_foot: v => v / 92903,
+                    acre: v => v / 4046856422.4,
+                    square_mile: v => v / 2589988110336
+                },
+                square_centimeter: {
+                    square_millimeter: v => v * 100,
+                    square_centimeter: v => v,
+                    square_meter: v => v / 10000,
+                    hectare: v => v / 100000000,
+                    square_kilometer: v => v / 10000000000,
+                    square_inch: v => v / 6.4516,
+                    square_foot: v => v / 929.03,
+                    acre: v => v / 40468564.224,
+                    square_mile: v => v / 25899881103.36
+                },
+                square_meter: {
+                    square_millimeter: v => v * 1000000,
+                    square_centimeter: v => v * 10000,
+                    square_meter: v => v,
+                    hectare: v => v / 10000,
+                    square_kilometer: v => v / 1000000,
+                    square_inch: v => v * 1550,
+                    square_foot: v => v * 10.7639,
+                    acre: v => v / 4046.86,
+                    square_mile: v => v / 2589988.11
+                },
+                hectare: {
+                    square_millimeter: v => v * 10000000000,
+                    square_centimeter: v => v * 100000000,
+                    square_meter: v => v * 10000,
+                    hectare: v => v,
+                    square_kilometer: v => v / 100,
+                    square_inch: v => v * 15500000,
+                    square_foot: v => v * 107639,
+                    acre: v => v * 2.47105,
+                    square_mile: v => v / 258.999
+                },
+                square_kilometer: {
+                    square_millimeter: v => v * 1000000000000,
+                    square_centimeter: v => v * 10000000000,
+                    square_meter: v => v * 1000000,
+                    hectare: v => v * 100,
+                    square_kilometer: v => v,
+                    square_inch: v => v * 1550000000,
+                    square_foot: v => v * 10763910.4,
+                    acre: v => v * 247.105,
+                    square_mile: v => v / 2.58999
+                },
+                square_inch: {
+                    square_millimeter: v => v * 645.16,
+                    square_centimeter: v => v * 6.4516,
+                    square_meter: v => v / 1550,
+                    hectare: v => v / 15500000,
+                    square_kilometer: v => v / 1550000000,
+                    square_inch: v => v,
+                    square_foot: v => v / 144,
+                    acre: v => v / 6272640,
+                    square_mile: v => v / 4014489600
+                },
+                square_foot: {
+                    square_millimeter: v => v * 92903,
+                    square_centimeter: v => v * 929.03,
+                    square_meter: v => v / 10.7639,
+                    hectare: v => v / 107639,
+                    square_kilometer: v => v / 10763910.4,
+                    square_inch: v => v * 144,
+                    square_foot: v => v,
+                    acre: v => v / 43560,
+                    square_mile: v => v / 27878400
+                },
+                acre: {
+                    square_millimeter: v => v * 4046856422.4,
+                    square_centimeter: v => v * 40468564.224,
+                    square_meter: v => v * 4046.86,
+                    hectare: v => v / 2.47105,
+                    square_kilometer: v => v / 247.105,
+                    square_inch: v => v * 6272640,
+                    square_foot: v => v * 43560,
+                    acre: v => v,
+                    square_mile: v => v / 640
+                },
+                square_mile: {
+                    square_millimeter: v => v * 2589988110336,
+                    square_centimeter: v => v * 25899881103.36,
+                    square_meter: v => v * 2589988.11,
+                    hectare: v => v * 258.999,
+                    square_kilometer: v => v * 2.58999,
+                    square_inch: v => v * 4014489600,
+                    square_foot: v => v * 27878400,
+                    acre: v => v * 640,
+                    square_mile: v => v
+                }
+            },
+            volume: {
+                milliliter: {
+                    milliliter: v => v,
+                    liter: v => v / 1000,
+                    cubic_meter: v => v / 1000000,
+                    teaspoon: v => v / 4.92892,
+                    tablespoon: v => v / 14.7868,
+                    fluid_ounce: v => v / 29.5735,
+                    cup: v => v / 236.588,
+                    pint: v => v / 473.176,
+                    quart: v => v / 946.353,
+                    gallon: v => v / 3785.41
+                },
+                liter: {
+                    milliliter: v => v * 1000,
+                    liter: v => v,
+                    cubic_meter: v => v / 1000,
+                    teaspoon: v => v * 202.884,
+                    tablespoon: v => v * 67.628,
+                    fluid_ounce: v => v * 33.814,
+                    cup: v => v * 4.22675,
+                    pint: v => v * 2.11338,
+                    quart: v => v * 1.05669,
+                    gallon: v => v / 3.78541
+                },
+                cubic_meter: {
+                    milliliter: v => v * 1000000,
+                    liter: v => v * 1000,
+                    cubic_meter: v => v,
+                    teaspoon: v => v * 202884,
+                    tablespoon: v => v * 67628,
+                    fluid_ounce: v => v * 33814,
+                    cup: v => v * 4226.75,
+                    pint: v => v * 2113.38,
+                    quart: v => v * 1056.69,
+                    gallon: v => v * 264.172
+                },
+                teaspoon: {
+                    milliliter: v => v * 4.92892,
+                    liter: v => v * 0.00492892,
+                    cubic_meter: v => v * 0.00000492892,
+                    teaspoon: v => v,
+                    tablespoon: v => v / 3,
+                    fluid_ounce: v => v / 6,
+                    cup: v => v / 48,
+                    pint: v => v / 96,
+                    quart: v => v / 192,
+                    gallon: v => v / 768
+                },
+                tablespoon: {
+                    milliliter: v => v * 14.7868,
+                    liter: v => v * 0.0147868,
+                    cubic_meter: v => v * 0.0000147868,
+                    teaspoon: v => v * 3,
+                    tablespoon: v => v,
+                    fluid_ounce: v => v / 2,
+                    cup: v => v / 16,
+                    pint: v => v / 32,
+                    quart: v => v / 64,
+                    gallon: v => v / 256
+                },
+                fluid_ounce: {
+                    milliliter: v => v * 29.5735,
+                    liter: v => v * 0.0295735,
+                    cubic_meter: v => v * 0.0000295735,
+                    teaspoon: v => v * 6,
+                    tablespoon: v => v * 2,
+                    fluid_ounce: v => v,
+                    cup: v => v / 8,
+                    pint: v => v / 16,
+                    quart: v => v / 32,
+                    gallon: v => v / 128
+                },
+                cup: {
+                    milliliter: v => v * 236.588,
+                    liter: v => v * 0.236588,
+                    cubic_meter: v => v * 0.000236588,
+                    teaspoon: v => v * 48,
+                    tablespoon: v => v * 16,
+                    fluid_ounce: v => v * 8,
+                    cup: v => v,
+                    pint: v => v / 2,
+                    quart: v => v / 4,
+                    gallon: v => v / 16
+                },
+                pint: {
+                    milliliter: v => v * 473.176,
+                    liter: v => v * 0.473176,
+                    cubic_meter: v => v * 0.000473176,
+                    teaspoon: v => v * 96,
+                    tablespoon: v => v * 32,
+                    fluid_ounce: v => v * 16,
+                    cup: v => v * 2,
+                    pint: v => v,
+                    quart: v => v / 2,
+                    gallon: v => v / 8
+                },
+                quart: {
+                    milliliter: v => v * 946.353,
+                    liter: v => v * 0.946353,
+                    cubic_meter: v => v * 0.000946353,
+                    teaspoon: v => v * 192,
+                    tablespoon: v => v * 64,
+                    fluid_ounce: v => v * 32,
+                    cup: v => v * 4,
+                    pint: v => v * 2,
+                    quart: v => v,
+                    gallon: v => v / 4
+                },
+                gallon: {
+                    milliliter: v => v * 3785.41,
+                    liter: v => v * 3.78541,
+                    cubic_meter: v => v * 0.00378541,
+                    teaspoon: v => v * 768,
+                    tablespoon: v => v * 256,
+                    fluid_ounce: v => v * 128,
+                    cup: v => v * 16,
+                    pint: v => v * 8,
+                    quart: v => v * 4,
+                    gallon: v => v
+                }
+            },
+            speed: {
+                meter_per_second: {
+                    meter_per_second: v => v,
+                    kilometer_per_hour: v => v * 3.6,
+                    mile_per_hour: v => v * 2.23694,
+                    knot: v => v * 1.94384,
+                    foot_per_second: v => v * 3.28084
+                },
+                kilometer_per_hour: {
+                    meter_per_second: v => v / 3.6,
+                    kilometer_per_hour: v => v,
+                    mile_per_hour: v => v / 1.60934,
+                    knot: v => v / 1.852,
+                    foot_per_second: v => v / 1.09728
+                },
+                mile_per_hour: {
+                    meter_per_second: v => v / 2.23694,
+                    kilometer_per_hour: v => v * 1.60934,
+                    mile_per_hour: v => v,
+                    knot: v => v / 1.15078,
+                    foot_per_second: v => v * 1.46667
+                },
+                knot: {
+                    meter_per_second: v => v / 1.94384,
+                    kilometer_per_hour: v => v * 1.852,
+                    mile_per_hour: v => v * 1.15078,
+                    knot: v => v,
+                    foot_per_second: v => v * 1.68781
+                },
+                foot_per_second: {
+                    meter_per_second: v => v / 3.28084,
+                    kilometer_per_hour: v => v * 1.09728,
+                    mile_per_hour: v => v / 1.46667,
+                    knot: v => v / 1.68781,
+                    foot_per_second: v => v
+                }
+            }
+        };
+       
+        // Get the conversion function and calculate the result
+        const conversionFunction = conversions[category][fromUnit][toUnit];
+        return conversionFunction ? conversionFunction(value) : value;
+    }
+   
+    // Function to trigger conversion when inputs change
+    function triggerConversion(converterId) {
+        const converter = document.getElementById(converterId);
+        if (!converter) return;
+       
+        const inputValue = converter.querySelector('.input-value');
+        const inputUnit = converter.querySelector('.input-unit');
+        const outputValue = converter.querySelector('.output-value');
+        const outputUnit = converter.querySelector('.output-unit');
+        const swapBtn = converter.querySelector('.swap-btn');
+       
+        // Perform conversion
+        function performConversion() {
+            const category = converterId.replace('-converter', '');
+            const fromUnit = inputUnit.value;
+            const toUnit = outputUnit.value;
+            const value = inputValue.value;
+           
+            const result = convertUnits(category, fromUnit, toUnit, value);
+            outputValue.value = result !== '' ? result.toFixed(6).replace(/\.?0+$/, '') : '';
+        }
+       
+        // Event listeners
+        inputValue.addEventListener('input', performConversion);
+        inputUnit.addEventListener('change', performConversion);
+        outputUnit.addEventListener('change', performConversion);
+       
+        // Swap button functionality
+        swapBtn.addEventListener('click', function() {
+            const tempUnit = inputUnit.value;
+            inputUnit.value = outputUnit.value;
+            outputUnit.value = tempUnit;
+           
+            const tempValue = inputValue.value;
+            inputValue.value = outputValue.value;
+            outputValue.value = tempValue;
+           
+            performConversion();
+        });
+       
+        // Initial conversion
+        performConversion();
+    }
+   
+    // Initialize the default converter (length)
+    triggerConversion('length-converter');
+});
+ </script>
+</body>
+</html>
+

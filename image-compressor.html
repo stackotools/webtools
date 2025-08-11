@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image compressor tool. Reduce JPG, PNG, WEBP image file sizes while maintaining quality. Compress images to specific file sizes.">
+    <meta name="keywords" content="image compressor, compress image, reduce image size, image optimizer, jpg compressor, png compressor">
+    <meta name="author" content="StackoTools">
+    <title>Image Compressor - Reduce Image File Size | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .drop-zone { border: 2px dashed #cbd5e0; transition: all 0.3s; }
+        .drop-zone.active { border-color: #3b82f6; background-color: #ebf5ff; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .preview-container { max-height: 400px; }
+        @media (max-width: 640px) {
+            .preview-container { max-height: 300px; }
+            .converter-container { flex-direction: column; }
+        }
+        #qualitySlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+        #fileSizeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (consistent with main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-compress-alt text-green-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Image Compressor</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Compress JPG, PNG, or WEBP images to reduce file size while maintaining quality. Perfect for web optimization.
+            </p>
+        </div>
+
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div id="dropZone" class="drop-zone rounded-lg p-8 text-center cursor-pointer mb-4">
+                        <div class="flex flex-col items-center justify-center py-8">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-1">Drag & Drop Image Here</h3>
+                            <p class="text-gray-500 text-sm mb-3">or click to browse files</p>
+                            <button id="selectFilesBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                Select Image
+                            </button>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" class="hidden">
+                    </div>
+
+
+                    <!-- File Info -->
+                    <div id="fileInfo" class="hidden border rounded-lg p-4 mb-4">
+                        <div class="flex items-center mb-3">
+                            <div id="fileThumbnail" class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden mr-3">
+                                <!-- Thumbnail will be inserted here -->
+                            </div>
+                            <div>
+                                <h4 id="fileName" class="font-medium text-gray-800 truncate"></h4>
+                                <p id="fileSize" class="text-sm text-gray-500"></p>
+                                <p id="fileDimensions" class="text-sm text-gray-500"></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Compression Options -->
+                    <div id="compressionOptions" class="hidden">
+                        <h3 class="font-medium text-gray-700 mb-3">Compression Settings</h3>
+                       
+                        <div class="mb-4">
+                            <div class="flex justify-between mb-1">
+                                <label for="targetSize" class="block text-sm font-medium text-gray-700">Target File Size</label>
+                                <span id="targetSizeValue" class="text-sm text-gray-500">500 KB</span>
+                            </div>
+                            <input type="range" id="fileSizeSlider" min="50" max="10000" value="500" step="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>50 KB</span>
+                                <span>10 MB</span>
+                            </div>
+                        </div>
+
+
+                        <div class="mb-4">
+                            <div class="flex justify-between mb-1">
+                                <label for="quality" class="block text-sm font-medium text-gray-700">Quality (auto-adjusted)</label>
+                                <span id="qualityValue" class="text-sm text-gray-500">80%</span>
+                            </div>
+                            <input type="range" id="qualitySlider" min="10" max="100" value="80" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" disabled>
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label for="outputFormat" class="block text-sm font-medium text-gray-700 mb-1">Output Format</label>
+                            <select id="outputFormat" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="jpeg">JPEG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                            <button id="compressBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                                <i class="fas fa-compress-alt mr-2"></i> Compress Image
+                            </button>
+                            <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">Compressed Image Preview</h3>
+                            <div id="downloadContainer" class="hidden">
+                                <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-download mr-1"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                        <div id="previewContainer" class="preview-container border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50 h-64 md:h-full">
+                            <div class="text-center p-4 text-gray-500">
+                                <i class="fas fa-image text-4xl mb-2"></i>
+                                <p>Compressed image will appear here</p>
+                            </div>
+                        </div>
+                        <div id="resultsInfo" class="mt-4 hidden">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Original Size</p>
+                                    <p id="originalSize" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Compressed Size</p>
+                                    <p id="compressedSize" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Reduction</p>
+                                    <p id="reductionPercent" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Quality</p>
+                                    <p id="finalQuality" class="font-medium"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Compress Images</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Upload Image</h3>
+                        <p class="text-gray-600 text-sm">Drag & drop or click to select JPG, PNG, or WEBP image from your device.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Set Target Size</h3>
+                        <p class="text-gray-600 text-sm">Choose your desired file size using the slider (50KB to 10MB).</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Download</h3>
+                        <p class="text-gray-600 text-sm">Click "Compress Image" and download your optimized file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SEO Content Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Why Compress Your Images?</h2>
+                <div class="prose max-w-none text-gray-700">
+                    <p>Our free online image compressor tool helps you reduce image file sizes while maintaining visual quality. This is essential for:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Faster website loading</strong> - Smaller images load quicker, improving user experience</li>
+                        <li><strong>Better SEO rankings</strong> - Page speed is a ranking factor for search engines</li>
+                        <li><strong>Saving storage space</strong> - Reduce image sizes for email attachments or device storage</li>
+                        <li><strong>Social media optimization</strong> - Meet platform requirements for image uploads</li>
+                        <li><strong>Bandwidth savings</strong> - Reduce data usage for mobile users</li>
+                    </ul>
+                    <p class="mt-3">The tool supports JPG, PNG, and WEBP formats. WEBP typically offers the best compression with quality preservation. For photos, JPEG usually provides the best balance of quality and file size.</p>
+                    <p class="mt-3"><strong>Tip:</strong> For best results, start with high-quality images and let our compressor optimize them to your desired file size.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (consistent with main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-compressor.html" class="text-gray-400 hover:text-white text-sm">Image Compressor</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Image Compression -->
+    <script>
+  // Mobile menu toggle (consistent with main site)
+  const menuToggle = document.getElementById('menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('overlay');
+
+
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  });
+
+
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  });
+
+
+  // Image Compressor Logic
+  document.addEventListener('DOMContentLoaded', function () {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const selectFilesBtn = document.getElementById('selectFilesBtn');
+    const compressBtn = document.getElementById('compressBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const fileInfo = document.getElementById('fileInfo');
+    const compressionOptions = document.getElementById('compressionOptions');
+    const previewContainer = document.getElementById('previewContainer');
+    const downloadContainer = document.getElementById('downloadContainer');
+    const resultsInfo = document.getElementById('resultsInfo');
+    const fileSizeSlider = document.getElementById('fileSizeSlider');
+    const targetSizeValue = document.getElementById('targetSizeValue');
+    const qualitySlider = document.getElementById('qualitySlider');
+    const qualityValue = document.getElementById('qualityValue');
+    const outputFormat = document.getElementById('outputFormat');
+
+
+    // Elements for file info display
+    const fileThumbnail = document.getElementById('fileThumbnail');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const fileDimensions = document.getElementById('fileDimensions');
+
+
+    // Elements for results display
+    const originalSize = document.getElementById('originalSize');
+    const compressedSize = document.getElementById('compressedSize');
+    const reductionPercent = document.getElementById('reductionPercent');
+    const finalQuality = document.getElementById('finalQuality');
+
+
+    let originalFile = null;
+    let compressedBlob = null;
+    let originalImageData = null;
+
+
+    // Trigger file input via button
+    selectFilesBtn.addEventListener('click', () => fileInput.click());
+
+
+    // Handle file selection
+    fileInput.addEventListener('change', handleFileSelect);
+
+
+    // Drag and drop event handlers
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.add('active'), false);
+    });
+
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.remove('active'), false);
+    });
+
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        handleFileSelect({ target: { files } });
+      }
+    }
+
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+
+      if (!file.type.match('image.*')) {
+        alert('Please select an image file (JPG, PNG, or WEBP).');
+        return;
+      }
+
+
+      originalFile = file;
+      displayFileInfo(file);
+
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          originalImageData = {
+            width: img.width,
+            height: img.height,
+            aspectRatio: img.width / img.height
+          };
+          fileDimensions.textContent = `${img.width} × ${img.height} px`;
+
+
+          const originalSizeKB = Math.round(file.size / 1024);
+          const maxSize = Math.min(10000, originalSizeKB);
+          fileSizeSlider.max = maxSize;
+          fileSizeSlider.value = Math.round(maxSize * 0.5);
+          updateTargetSizeValue();
+
+
+          compressionOptions.classList.remove('hidden');
+        };
+        img.src = e.target.result;
+
+
+        fileThumbnail.innerHTML = `<img src="${e.target.result}" alt="Preview" class="max-w-full max-h-full object-contain">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+
+    function displayFileInfo(file) {
+      fileName.textContent = file.name;
+      fileSize.textContent = formatFileSize(file.size);
+      fileInfo.classList.remove('hidden');
+    }
+
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat(bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+    }
+
+
+    fileSizeSlider.addEventListener('input', updateTargetSizeValue);
+
+
+    function updateTargetSizeValue() {
+      const sizeKB = parseInt(fileSizeSlider.value);
+      targetSizeValue.textContent = sizeKB >= 1000
+        ? (sizeKB / 1000).toFixed(1) + ' MB'
+        : sizeKB + ' KB';
+    }
+
+
+    clearBtn.addEventListener('click', resetTool);
+
+
+    function resetTool() {
+      originalFile = null;
+      compressedBlob = null;
+      originalImageData = null;
+      fileInput.value = '';
+      fileInfo.classList.add('hidden');
+      compressionOptions.classList.add('hidden');
+      previewContainer.innerHTML = `
+        <div class="text-center p-4 text-gray-500">
+          <i class="fas fa-image text-4xl mb-2"></i>
+          <p>Compressed image will appear here</p>
+        </div>
+      `;
+      downloadContainer.classList.add('hidden');
+      resultsInfo.classList.add('hidden');
+    }
+
+
+    compressBtn.addEventListener('click', async () => {
+      if (!originalFile) return;
+
+
+      compressBtn.disabled = true;
+      compressBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...';
+
+
+      try {
+        const targetSizeKB = parseInt(fileSizeSlider.value);
+        const targetSizeBytes = targetSizeKB * 1024;
+        const outputFormatValue = outputFormat.value;
+
+
+        const compressedResult = await compressImage(originalFile, targetSizeBytes, outputFormatValue);
+
+
+        compressedBlob = compressedResult.blob;
+        const compressedUrl = URL.createObjectURL(compressedResult.blob);
+
+
+        previewContainer.innerHTML = `
+          <img src="${compressedUrl}" alt="Compressed preview" class="max-w-full max-h-full object-contain">
+        `;
+
+
+        downloadBtn.onclick = () => {
+          const fileNameCompressed = originalFile.name.replace(/\.[^/.]+$/, '') + '_compressed.' + outputFormatValue;
+          saveAs(compressedResult.blob, fileNameCompressed);
+        };
+        downloadContainer.classList.remove('hidden');
+
+
+        originalSize.textContent = formatFileSize(originalFile.size);
+        compressedSize.textContent = formatFileSize(compressedResult.blob.size);
+
+
+        const reduction = ((originalFile.size - compressedResult.blob.size) / originalFile.size * 100).toFixed(1);
+        reductionPercent.textContent = `${reduction}% smaller`;
+
+
+        finalQuality.textContent = `${compressedResult.quality}% quality`;
+        resultsInfo.classList.remove('hidden');
+
+
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Error compressing image. Please try again.');
+      } finally {
+        compressBtn.disabled = false;
+        compressBtn.innerHTML = '<i class="fas fa-compress-alt mr-2"></i> Compress Image';
+      }
+    });
+
+
+    async function compressImage(file, targetSizeBytes, outputFormat) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const img = new Image();
+          img.onload = function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+
+            let width = img.width;
+            let height = img.height;
+            const maxDimension = 2000;
+
+
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((maxDimension / width) * height);
+                width = maxDimension;
+              } else {
+                width = Math.round((maxDimension / height) * width);
+                height = maxDimension;
+              }
+            }
+
+
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+
+            // Binary search for quality
+            let quality;
+            let blob;
+            let iterations = 0;
+            const maxIterations = 10;
+            let minQuality = 0.1;
+            let maxQuality = 1.0;
+
+
+            (function tryCompress() {
+              quality = (minQuality + maxQuality) / 2;
+              blob = canvasToBlob(canvas, outputFormat, quality);
+
+
+              if (blob.size > targetSizeBytes && iterations < maxIterations) {
+                maxQuality = quality;
+                iterations++;
+                tryCompress();
+              } else if (blob.size < targetSizeBytes * 0.95 && iterations < maxIterations) {
+                minQuality = quality;
+                iterations++;
+                tryCompress();
+              } else {
+                resolve({
+                  blob,
+                  quality: Math.round(quality * 100)
+                });
+              }
+            })();
+          };
+          img.onerror = reject;
+          img.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+
+    function canvasToBlob(canvas, format, quality) {
+      const mimeType = `image/${format}`;
+      const dataUrl = canvas.toDataURL(mimeType, quality);
+      const data = dataUrl.split(',')[1];
+      const bytes = atob(data);
+      const buffer = new ArrayBuffer(bytes.length);
+      const view = new Uint8Array(buffer);
+
+
+      for (let i = 0; i < bytes.length; i++) {
+        view[i] = bytes.charCodeAt(i);
+      }
+
+
+      return new Blob([buffer], { type: mimeType });
+    }
+
+
+    // Helper function for saving files, uses FileSaver.js or similar library
+    function saveAs(blob, filename) {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    }
+  });
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images to PDF online for free. Supports JPG, PNG, WEBP to PDF conversion. No registration required.">
+    <meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, convert image to pdf, online pdf converter">
+    <title>Image to PDF Converter | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .drop-zone { border: 2px dashed #cbd5e0; transition: all 0.3s; }
+        .drop-zone.active { border-color: #3b82f6; background-color: #ebf5ff; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        #pdfPreview { max-height: 500px; }
+        @media (max-width: 640px) {
+            #pdfPreview { max-height: 300px; }
+            .converter-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (same as main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-file-pdf text-red-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Image to PDF Converter</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Convert JPG, PNG, or WEBP images to PDF documents. Merge multiple images into a single PDF file.
+            </p>
+        </div>
+
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div id="dropZone" class="drop-zone rounded-lg p-8 text-center cursor-pointer mb-4">
+                        <div class="flex flex-col items-center justify-center py-8">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-1">Drag & Drop Images Here</h3>
+                            <p class="text-gray-500 text-sm mb-3">or click to browse files</p>
+                            <button id="selectFilesBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                Select Images
+                            </button>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" multiple class="hidden">
+                    </div>
+
+
+                    <!-- Selected Files List -->
+                    <div id="fileList" class="border rounded-lg divide-y divide-gray-200 max-h-60 overflow-y-auto hidden">
+                        <div class="p-3 bg-gray-50 text-center">
+                            <h4 class="font-medium text-gray-700">Selected Images</h4>
+                        </div>
+                        <!-- Files will be added here dynamically -->
+                    </div>
+
+
+                    <!-- Options -->
+                    <div class="mt-6">
+                        <h3 class="font-medium text-gray-700 mb-3">PDF Options</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="mergeFiles" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="mergeFiles" class="ml-2 block text-sm text-gray-700">Merge all images into one PDF</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Action Buttons -->
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        <button id="convertBtn" disabled class="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                            <i class="fas fa-file-pdf mr-2"></i> Convert to PDF
+                        </button>
+                        <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">PDF Preview</h3>
+                            <div id="downloadContainer" class="hidden">
+                                <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-download mr-1"></i> Download PDF
+                                </button>
+                            </div>
+                        </div>
+                        <div id="pdfPreview" class="border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50 h-64 md:h-full">
+                            <div class="text-center p-4 text-gray-500">
+                                <i class="fas fa-file-pdf text-4xl mb-2"></i>
+                                <p>PDF preview will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Convert Images to PDF</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Upload Images</h3>
+                        <p class="text-gray-600 text-sm">Drag & drop or click to select JPG, PNG, or WEBP images from your device.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Set Options</h3>
+                        <p class="text-gray-600 text-sm">Choose to merge images into one PDF.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Download PDF</h3>
+                        <p class="text-gray-600 text-sm">Click "Convert to PDF" and download your file when ready.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (same as main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="image-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Image to PDF Conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        // Mobile menu toggle (same as main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+
+        // Image to PDF Converter Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const convertBtn = document.getElementById('convertBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const fileList = document.getElementById('fileList');
+            const pdfPreview = document.getElementById('pdfPreview');
+            const downloadContainer = document.getElementById('downloadContainer');
+            const mergeFilesCheckbox = document.getElementById('mergeFiles');
+
+
+            let files = [];
+
+
+            // Handle file selection via button
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+           
+            // Handle file input change
+            fileInput.addEventListener('change', handleFiles);
+
+
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+
+
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const newFiles = dt.files;
+                handleFiles({ target: { files: newFiles } });
+            }
+
+
+            function handleFiles(e) {
+                const newFiles = Array.from(e.target.files);
+               
+                // Filter only image files
+                const imageFiles = newFiles.filter(file =>
+                    file.type.match('image.*') &&
+                    ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)
+                );
+               
+                if (imageFiles.length === 0) {
+                    alert('Please select only JPG, PNG, or WEBP images.');
+                    return;
+                }
+               
+                files = [...files, ...imageFiles];
+                updateFileList();
+                fileInput.value = ''; // Reset input to allow selecting same files again
+            }
+
+
+            function updateFileList() {
+                if (files.length === 0) {
+                    fileList.classList.add('hidden');
+                    convertBtn.disabled = true;
+                    return;
+                }
+               
+                fileList.innerHTML = `
+                    <div class="p-3 bg-gray-50 text-center">
+                        <h4 class="font-medium text-gray-700">Selected Images (${files.length})</h4>
+                    </div>
+                `;
+               
+                files.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'p-3 flex items-center hover:bg-gray-50';
+                        fileItem.innerHTML = `
+                            <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                <img src="${e.target.result}" alt="Preview" class="max-w-full max-h-full object-contain">
+                            </div>
+                            <div class="ml-3 flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-800 truncate">${file.name}</p>
+                                <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+                            </div>
+                            <button class="text-red-500 hover:text-red-700 p-1" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        fileList.appendChild(fileItem);
+                       
+                        // Add event listener to remove button
+                        fileItem.querySelector('button').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const indexToRemove = parseInt(e.currentTarget.getAttribute('data-index'));
+                            files.splice(indexToRemove, 1);
+                            updateFileList();
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+               
+                fileList.classList.remove('hidden');
+                convertBtn.disabled = false;
+            }
+
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+
+            // Clear all files
+            clearBtn.addEventListener('click', () => {
+                files = [];
+                updateFileList();
+                pdfPreview.innerHTML = `
+                    <div class="text-center p-4 text-gray-500">
+                        <i class="fas fa-file-pdf text-4xl mb-2"></i>
+                        <p>PDF preview will appear here</p>
+                    </div>
+                `;
+                downloadContainer.classList.add('hidden');
+            });
+
+
+            // Convert to PDF
+            convertBtn.addEventListener('click', async () => {
+                if (files.length === 0) return;
+               
+                convertBtn.disabled = true;
+                convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+               
+                try {
+                    const { PDFDocument, rgb } = PDFLib;
+                    const pdfDoc = await PDFDocument.create();
+                   
+                    if (mergeFilesCheckbox.checked) {
+                        // Merge all images into one PDF
+                        for (const file of files) {
+                            const imageBytes = await readFileAsArrayBuffer(file);
+                            let image;
+                           
+                            if (file.type === 'image/jpeg') {
+                                image = await pdfDoc.embedJpg(imageBytes);
+                            } else if (file.type === 'image/png') {
+                                image = await pdfDoc.embedPng(imageBytes);
+                            } else if (file.type === 'image/webp') {
+                                // WEBP not directly supported, would need conversion
+                                alert('WEBP images are not fully supported. Please use JPG or PNG for best results.');
+                                continue;
+                            }
+                           
+                            const page = pdfDoc.addPage([image.width, image.height]);
+                            page.drawImage(image, {
+                                x: 0,
+                                y: 0,
+                                width: image.width,
+                                height: image.height,
+                            });
+                        }
+                    } else {
+                        // Create separate PDF for each image (not implemented in this example)
+                    }
+                   
+                    // Save the PDF
+                    const pdfBytes = await pdfDoc.save();
+                    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                    const pdfUrl = URL.createObjectURL(blob);
+                   
+                    // Show preview
+                    pdfPreview.innerHTML = `
+                        <embed src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" width="100%" height="100%">
+                    `;
+                   
+                    // Enable download
+                    downloadBtn.onclick = () => {
+                        saveAs(blob, 'converted_images.pdf');
+                    };
+                    downloadContainer.classList.remove('hidden');
+                   
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                } finally {
+                    convertBtn.disabled = false;
+                    convertBtn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i> Convert to PDF';
+                }
+            });
+
+
+            function readFileAsArrayBuffer(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsArrayBuffer(file);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

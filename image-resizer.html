@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image resizer tool. Resize JPG, PNG, WEBP images to specific dimensions. Change image width and height while maintaining aspect ratio.">
+    <meta name="keywords" content="image resizer, resize image, change image dimensions, image scaler, photo resizer">
+    <meta name="author" content="StackoTools">
+    <title>Image Resizer - Change Dimensions | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .drop-zone { border: 2px dashed #cbd5e0; transition: all 0.3s; }
+        .drop-zone.active { border-color: #3b82f6; background-color: #ebf5ff; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .preview-container { max-height: 400px; }
+        @media (max-width: 640px) {
+            .preview-container { max-height: 300px; }
+            .converter-container { flex-direction: column; }
+        }
+        #widthSlider::-webkit-slider-thumb,
+        #heightSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (consistent with main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-expand-alt text-green-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Image Resizer</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Resize JPG, PNG, or WEBP images to your desired dimensions. Change width and height while maintaining aspect ratio.
+            </p>
+        </div>
+
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div id="dropZone" class="drop-zone rounded-lg p-8 text-center cursor-pointer mb-4">
+                        <div class="flex flex-col items-center justify-center py-8">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-1">Drag & Drop Image Here</h3>
+                            <p class="text-gray-500 text-sm mb-3">or click to browse files</p>
+                            <button id="selectFilesBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                Select Image
+                            </button>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" class="hidden">
+                    </div>
+
+
+                    <!-- File Info -->
+                    <div id="fileInfo" class="hidden border rounded-lg p-4 mb-4">
+                        <div class="flex items-center mb-3">
+                            <div id="fileThumbnail" class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden mr-3">
+                                <!-- Thumbnail will be inserted here -->
+                            </div>
+                            <div>
+                                <h4 id="fileName" class="font-medium text-gray-800 truncate"></h4>
+                                <p id="fileSize" class="text-sm text-gray-500"></p>
+                                <p id="fileDimensions" class="text-sm text-gray-500"></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Resize Options -->
+                    <div id="resizeOptions" class="hidden">
+                        <h3 class="font-medium text-gray-700 mb-3">Resize Options</h3>
+                       
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <label for="maintainAspect" class="block text-sm font-medium text-gray-700">Maintain Aspect Ratio</label>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="maintainAspect" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label for="width" class="block text-sm font-medium text-gray-700">Width (px)</label>
+                                    <span id="widthValue" class="text-sm text-gray-500">800</span>
+                                </div>
+                                <input type="range" id="widthSlider" min="50" max="5000" value="800" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <input type="number" id="widthInput" min="1" max="5000" value="800" class="w-full mt-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label for="height" class="block text-sm font-medium text-gray-700">Height (px)</label>
+                                    <span id="heightValue" class="text-sm text-gray-500">600</span>
+                                </div>
+                                <input type="range" id="heightSlider" min="50" max="5000" value="600" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <input type="number" id="heightInput" min="1" max="5000" value="600" class="w-full mt-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label for="resizeMethod" class="block text-sm font-medium text-gray-700 mb-1">Resize Method</label>
+                            <select id="resizeMethod" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="lanczos">High Quality (Lanczos)</option>
+                                <option value="bilinear">Bilinear</option>
+                                <option value="nearest">Nearest Neighbor</option>
+                            </select>
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label for="outputFormat" class="block text-sm font-medium text-gray-700 mb-1">Output Format</label>
+                            <select id="outputFormat" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="original">Original Format</option>
+                                <option value="jpeg">JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                            <button id="resizeBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                                <i class="fas fa-expand-alt mr-2"></i> Resize Image
+                            </button>
+                            <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">Resized Image Preview</h3>
+                            <div id="downloadContainer" class="hidden">
+                                <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-download mr-1"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                        <div id="previewContainer" class="preview-container border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50 h-64 md:h-full">
+                            <div class="text-center p-4 text-gray-500">
+                                <i class="fas fa-image text-4xl mb-2"></i>
+                                <p>Resized image will appear here</p>
+                            </div>
+                        </div>
+                        <div id="resultsInfo" class="mt-4 hidden">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Original Dimensions</p>
+                                    <p id="originalDimensions" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Resized Dimensions</p>
+                                    <p id="resizedDimensions" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Original Size</p>
+                                    <p id="originalSize" class="font-medium"></p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-500">Resized Size</p>
+                                    <p id="resizedSize" class="font-medium"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Resize Images</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Upload Image</h3>
+                        <p class="text-gray-600 text-sm">Drag & drop or click to select JPG, PNG, or WEBP image from your device.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Set Dimensions</h3>
+                        <p class="text-gray-600 text-sm">Adjust width and height sliders or type exact pixel values.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Download</h3>
+                        <p class="text-gray-600 text-sm">Click "Resize Image" and download your resized file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SEO Content Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Resize Images for Any Purpose</h2>
+                <div class="prose max-w-none text-gray-700">
+                    <p>Our free online image resizer tool helps you adjust image dimensions to fit your needs. Perfect for:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Website optimization</strong> - Resize images to match your layout requirements</li>
+                        <li><strong>Social media</strong> - Meet platform-specific dimension requirements</li>
+                        <li><strong>Email attachments</strong> - Reduce dimensions for easier sharing</li>
+                        <li><strong>Print materials</strong> - Set exact dimensions for high-quality prints</li>
+                    </ul>
+                    <p class="mt-3">The tool supports JPG, PNG, and WEBP formats. You can maintain the original aspect ratio or specify custom dimensions. Choose from different resizing algorithms for optimal quality based on your needs.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (consistent with main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Image Resizing -->
+    <script>
+        // Mobile menu toggle (consistent with main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+
+        // Image Resizer Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const resizeBtn = document.getElementById('resizeBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const fileInfo = document.getElementById('fileInfo');
+            const resizeOptions = document.getElementById('resizeOptions');
+            const previewContainer = document.getElementById('previewContainer');
+            const downloadContainer = document.getElementById('downloadContainer');
+            const resultsInfo = document.getElementById('resultsInfo');
+            const maintainAspect = document.getElementById('maintainAspect');
+            const widthSlider = document.getElementById('widthSlider');
+            const heightSlider = document.getElementById('heightSlider');
+            const widthInput = document.getElementById('widthInput');
+            const heightInput = document.getElementById('heightInput');
+            const widthValue = document.getElementById('widthValue');
+            const heightValue = document.getElementById('heightValue');
+            const resizeMethod = document.getElementById('resizeMethod');
+            const outputFormat = document.getElementById('outputFormat');
+
+
+            // Elements for file info display
+            const fileThumbnail = document.getElementById('fileThumbnail');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const fileDimensions = document.getElementById('fileDimensions');
+
+
+            // Elements for results display
+            const originalDimensions = document.getElementById('originalDimensions');
+            const resizedDimensions = document.getElementById('resizedDimensions');
+            const originalSize = document.getElementById('originalSize');
+            const resizedSize = document.getElementById('resizedSize');
+
+
+            let originalFile = null;
+            let resizedBlob = null;
+            let originalImageData = null;
+            let aspectRatio = 1;
+
+
+            // Trigger file input via button
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+
+
+            // Handle file selection
+            fileInput.addEventListener('change', handleFileSelect);
+
+
+            // Drag and drop event handlers
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.add('active'), false);
+            });
+
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.remove('active'), false);
+            });
+
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handleFileSelect({ target: { files } });
+                }
+            }
+
+
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPG, PNG, or WEBP).');
+                    return;
+                }
+
+
+                originalFile = file;
+                displayFileInfo(file);
+
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        originalImageData = {
+                            width: img.width,
+                            height: img.height,
+                            aspectRatio: img.width / img.height
+                        };
+                        aspectRatio = img.width / img.height;
+                        fileDimensions.textContent = `${img.width} × ${img.height} px`;
+
+
+                        // Set initial dimensions (max 1000px while maintaining aspect ratio)
+                        let initialWidth = img.width > 1000 ? 1000 : img.width;
+                        let initialHeight = Math.round(initialWidth / aspectRatio);
+
+
+                        widthSlider.value = initialWidth;
+                        heightSlider.value = initialHeight;
+                        widthInput.value = initialWidth;
+                        heightInput.value = initialHeight;
+                        widthValue.textContent = initialWidth;
+                        heightValue.textContent = initialHeight;
+
+
+                        // Set slider max values (2x original dimensions)
+                        widthSlider.max = img.width * 2;
+                        heightSlider.max = img.height * 2;
+
+
+                        resizeOptions.classList.remove('hidden');
+                    };
+                    img.src = e.target.result;
+
+
+                    fileThumbnail.innerHTML = `<img src="${e.target.result}" alt="Preview" class="max-w-full max-h-full object-contain">`;
+                };
+                reader.readAsDataURL(file);
+            }
+
+
+            function displayFileInfo(file) {
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.classList.remove('hidden');
+            }
+
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+
+            // Update width and height values when sliders change
+            widthSlider.addEventListener('input', function() {
+                const width = parseInt(this.value);
+                widthInput.value = width;
+                widthValue.textContent = width;
+               
+                if (maintainAspect.checked && originalImageData) {
+                    const newHeight = Math.round(width / aspectRatio);
+                    heightSlider.value = newHeight;
+                    heightInput.value = newHeight;
+                    heightValue.textContent = newHeight;
+                }
+            });
+
+
+            heightSlider.addEventListener('input', function() {
+                const height = parseInt(this.value);
+                heightInput.value = height;
+                heightValue.textContent = height;
+               
+                if (maintainAspect.checked && originalImageData) {
+                    const newWidth = Math.round(height * aspectRatio);
+                    widthSlider.value = newWidth;
+                    widthInput.value = newWidth;
+                    widthValue.textContent = newWidth;
+                }
+            });
+
+
+            // Update sliders when input fields change
+            widthInput.addEventListener('input', function() {
+                const width = parseInt(this.value) || 1;
+                if (width > 5000) {
+                    width = 5000;
+                    this.value = 5000;
+                }
+                widthSlider.value = width;
+                widthValue.textContent = width;
+               
+                if (maintainAspect.checked && originalImageData) {
+                    const newHeight = Math.round(width / aspectRatio);
+                    heightSlider.value = newHeight;
+                    heightInput.value = newHeight;
+                    heightValue.textContent = newHeight;
+                }
+            });
+
+
+            heightInput.addEventListener('input', function() {
+                const height = parseInt(this.value) || 1;
+                if (height > 5000) {
+                    height = 5000;
+                    this.value = 5000;
+                }
+                heightSlider.value = height;
+                heightValue.textContent = height;
+               
+                if (maintainAspect.checked && originalImageData) {
+                    const newWidth = Math.round(height * aspectRatio);
+                    widthSlider.value = newWidth;
+                    widthInput.value = newWidth;
+                    widthValue.textContent = newWidth;
+                }
+            });
+
+
+            clearBtn.addEventListener('click', resetTool);
+
+
+            function resetTool() {
+                originalFile = null;
+                resizedBlob = null;
+                originalImageData = null;
+                fileInput.value = '';
+                fileInfo.classList.add('hidden');
+                resizeOptions.classList.add('hidden');
+                previewContainer.innerHTML = `
+                    <div class="text-center p-4 text-gray-500">
+                        <i class="fas fa-image text-4xl mb-2"></i>
+                        <p>Resized image will appear here</p>
+                    </div>
+                `;
+                downloadContainer.classList.add('hidden');
+                resultsInfo.classList.add('hidden');
+            }
+
+
+            resizeBtn.addEventListener('click', async () => {
+                if (!originalFile) return;
+
+
+                resizeBtn.disabled = true;
+                resizeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Resizing...';
+
+
+                try {
+                    const width = parseInt(widthInput.value);
+                    const height = parseInt(heightInput.value);
+                    const method = resizeMethod.value;
+                    const format = outputFormat.value === 'original'
+                        ? originalFile.type.split('/')[1]
+                        : outputFormat.value;
+
+
+                    const resizedResult = await resizeImage(originalFile, width, height, method, format);
+
+
+                    resizedBlob = resizedResult.blob;
+                    const resizedUrl = URL.createObjectURL(resizedResult.blob);
+
+
+                    previewContainer.innerHTML = `
+                        <img src="${resizedUrl}" alt="Resized preview" class="max-w-full max-h-full object-contain">
+                    `;
+
+
+                    downloadBtn.onclick = () => {
+                        const fileNameResized = originalFile.name.replace(/\.[^/.]+$/, '') +
+                            `_${width}x${height}.${format}`;
+                        saveAs(resizedResult.blob, fileNameResized);
+                    };
+                    downloadContainer.classList.remove('hidden');
+
+
+                    originalDimensions.textContent = `${originalImageData.width} × ${originalImageData.height} px`;
+                    resizedDimensions.textContent = `${width} × ${height} px`;
+                    originalSize.textContent = formatFileSize(originalFile.size);
+                    resizedSize.textContent = formatFileSize(resizedResult.blob.size);
+                    resultsInfo.classList.remove('hidden');
+
+
+                } catch (error) {
+                    console.error('Error resizing image:', error);
+                    alert('Error resizing image. Please try again.');
+                } finally {
+                    resizeBtn.disabled = false;
+                    resizeBtn.innerHTML = '<i class="fas fa-expand-alt mr-2"></i> Resize Image';
+                }
+            });
+
+
+            async function resizeImage(file, targetWidth, targetHeight, method, format) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const img = new Image();
+                        img.onload = function () {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                           
+                            // Set canvas dimensions
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+                           
+                            // Apply the selected resizing method
+                            if (method === 'nearest') {
+                                // Nearest neighbor (fast but pixelated)
+                                ctx.imageSmoothingEnabled = false;
+                                ctx.webkitImageSmoothingEnabled = false;
+                                ctx.mozImageSmoothingEnabled = false;
+                            } else if (method === 'bilinear') {
+                                // Bilinear (default)
+                                ctx.imageSmoothingQuality = 'low';
+                            } else {
+                                // Lanczos (high quality)
+                                ctx.imageSmoothingQuality = 'high';
+                            }
+                           
+                            // Draw the image to the canvas
+                            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                           
+                            // Convert to blob
+                            canvas.toBlob(blob => {
+                                resolve({
+                                    blob,
+                                    width: targetWidth,
+                                    height: targetHeight
+                                });
+                            }, `image/${format}`, 0.92); // 0.92 quality for JPEG/WEBP
+                        };
+                        img.onerror = reject;
+                        img.src = event.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+
+            // Helper function for saving files
+            function saveAs(blob, filename) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                URL.revokeObjectURL(link.href);
+            }
+        });
+    </script>
+</body>
+</html>
+

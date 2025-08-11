@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert CSV files to JSON format online for free. No registration required. Supports large CSV files with proper formatting.">
+    <meta name="keywords" content="csv to json, convert csv to json, csv converter, json converter, online csv tool">
+    <title>CSV to JSON Converter | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .drop-zone { border: 2px dashed #cbd5e0; transition: all 0.3s; }
+        .drop-zone.active { border-color: #3b82f6; background-color: #ebf5ff; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        #jsonOutput { min-height: 300px; max-height: 500px; }
+        @media (max-width: 640px) {
+            #jsonOutput { max-height: 300px; }
+            .converter-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (same as main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exchange-alt text-green-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">CSV to JSON Converter</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Convert your CSV data to JSON format quickly and easily. Perfect for developers, data analysts, and anyone working with APIs.
+            </p>
+        </div>
+
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div id="dropZone" class="drop-zone rounded-lg p-8 text-center cursor-pointer mb-4">
+                        <div class="flex flex-col items-center justify-center py-8">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-1">Drag & Drop CSV File Here</h3>
+                            <p class="text-gray-500 text-sm mb-3">or click to browse files</p>
+                            <button id="selectFilesBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                Select CSV File
+                            </button>
+                        </div>
+                        <input type="file" id="fileInput" accept=".csv,text/csv" class="hidden">
+                    </div>
+
+
+                    <!-- CSV Options -->
+                    <div class="mt-6">
+                        <h3 class="font-medium text-gray-700 mb-3">Conversion Options</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="delimiter" class="block text-sm font-medium text-gray-700 mb-1">Delimiter</label>
+                                <select id="delimiter" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="," selected>Comma ( , )</option>
+                                    <option value=";">Semicolon ( ; )</option>
+                                    <option value="\t">Tab</option>
+                                    <option value="|">Pipe ( | )</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                                <input type="text" id="customDelimiter" class="mt-2 hidden block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter custom delimiter">
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="headerRow" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="headerRow" class="ml-2 block text-sm text-gray-700">First row contains headers</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="minify" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="minify" class="ml-2 block text-sm text-gray-700">Minify JSON output</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Action Buttons -->
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        <button id="convertBtn" disabled class="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                            <i class="fas fa-exchange-alt mr-2"></i> Convert to JSON
+                        </button>
+                        <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">JSON Output</h3>
+                            <div id="downloadContainer" class="hidden">
+                                <button id="copyBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-lg text-sm mr-2">
+                                    <i class="fas fa-copy mr-1"></i> Copy
+                                </button>
+                                <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm">
+                                    <i class="fas fa-download mr-1"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                        <div id="jsonOutput" class="border-2 border-dashed border-gray-200 rounded-lg flex-grow bg-gray-50 p-3 font-mono text-sm overflow-auto">
+                            <div class="text-center p-4 text-gray-500 h-full flex items-center justify-center">
+                                <div>
+                                    <i class="fas fa-code text-4xl mb-2"></i>
+                                    <p>JSON output will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorContainer" class="mt-2 hidden">
+                            <p class="text-red-600 text-sm"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Convert CSV to JSON</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-green-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Upload CSV File</h3>
+                        <p class="text-gray-600 text-sm">Drag & drop or click to select a CSV file from your device.</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-green-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Set Conversion Options</h3>
+                        <p class="text-gray-600 text-sm">Choose delimiter and other options to match your CSV format.</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-green-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Get JSON Output</h3>
+                        <p class="text-gray-600 text-sm">Copy or download the converted JSON data for your projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FAQ Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-1">What is CSV to JSON conversion?</h3>
+                        <p class="text-gray-600 text-sm">CSV to JSON conversion is the process of transforming data from Comma-Separated Values (CSV) format to JavaScript Object Notation (JSON) format, which is widely used in web applications and APIs.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-1">Is my data secure?</h3>
+                        <p class="text-gray-600 text-sm">Yes, all conversions happen in your browser. Your data never leaves your computer and is not stored on our servers.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-1">What CSV formats are supported?</h3>
+                        <p class="text-gray-600 text-sm">We support standard CSV files with various delimiters (comma, semicolon, tab, pipe) and both quoted and unquoted values.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800 mb-1">Can I convert large CSV files?</h3>
+                        <p class="text-gray-600 text-sm">Our converter can handle reasonably large files, but very large files (over 10MB) may cause performance issues in your browser.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (same as main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="csv-to-json.html" class="text-gray-400 hover:text-white text-sm">CSV to JSON</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for CSV to JSON Conversion -->
+    <script>
+        // Mobile menu toggle (same as main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+
+        // CSV to JSON Converter Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const convertBtn = document.getElementById('convertBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const jsonOutput = document.getElementById('jsonOutput');
+            const downloadContainer = document.getElementById('downloadContainer');
+            const errorContainer = document.getElementById('errorContainer');
+            const delimiterSelect = document.getElementById('delimiter');
+            const customDelimiter = document.getElementById('customDelimiter');
+            const headerRowCheckbox = document.getElementById('headerRow');
+            const minifyCheckbox = document.getElementById('minify');
+
+
+            let csvContent = '';
+            let jsonResult = '';
+
+
+            // Handle file selection via button
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+           
+            // Handle file input change
+            fileInput.addEventListener('change', handleFile);
+
+
+            // Handle delimiter selection change
+            delimiterSelect.addEventListener('change', function() {
+                customDelimiter.classList.toggle('hidden', this.value !== 'custom');
+            });
+
+
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+
+
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length) {
+                    fileInput.files = files;
+                    handleFile({ target: { files } });
+                }
+            }
+
+
+            function handleFile(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+               
+                // Check if file is CSV
+                if (!file.name.endsWith('.csv') && !file.type.includes('csv')) {
+                    showError('Please select a valid CSV file.');
+                    return;
+                }
+               
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    csvContent = e.target.result;
+                    convertBtn.disabled = false;
+                   
+                    // Update UI to show file is ready
+                    dropZone.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-4">
+                            <i class="fas fa-file-csv text-4xl text-green-500 mb-2"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-1">${file.name}</h3>
+                            <p class="text-gray-500 text-sm">${formatFileSize(file.size)}</p>
+                        </div>
+                    `;
+                };
+                reader.onerror = function() {
+                    showError('Error reading file. Please try again.');
+                };
+                reader.readAsText(file);
+            }
+
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+
+
+            }
+
+
+            function showError(message) {
+                errorContainer.classList.remove('hidden');
+                errorContainer.querySelector('p').textContent = message;
+                setTimeout(() => errorContainer.classList.add('hidden'), 5000);
+            }
+
+
+            // Clear all
+            clearBtn.addEventListener('click', () => {
+                csvContent = '';
+                jsonResult = '';
+                fileInput.value = '';
+                convertBtn.disabled = true;
+                downloadContainer.classList.add('hidden');
+                errorContainer.classList.add('hidden');
+               
+                dropZone.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-8">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                        <h3 class="text-lg font-medium text-gray-700 mb-1">Drag & Drop CSV File Here</h3>
+                        <p class="text-gray-500 text-sm mb-3">or click to browse files</p>
+                        <button id="selectFilesBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                            Select CSV File
+                        </button>
+                    </div>
+                `;
+               
+                jsonOutput.innerHTML = `
+                    <div class="text-center p-4 text-gray-500 h-full flex items-center justify-center">
+                        <div>
+                            <i class="fas fa-code text-4xl mb-2"></i>
+                            <p>JSON output will appear here</p>
+                        </div>
+                    </div>
+                `;
+               
+                // Reattach event listener to the new button
+                document.getElementById('selectFilesBtn').addEventListener('click', () => fileInput.click());
+            });
+
+
+            // Convert to JSON
+            convertBtn.addEventListener('click', async () => {
+                if (!csvContent) return;
+               
+                convertBtn.disabled = true;
+                convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+               
+                try {
+                    // Get delimiter
+                    let delimiter = delimiterSelect.value;
+                    if (delimiter === 'custom') {
+                        delimiter = customDelimiter.value.trim();
+                        if (!delimiter) {
+                            showError('Please enter a custom delimiter.');
+                            return;
+                        }
+                    }
+                   
+                    // Parse CSV
+                    const lines = csvContent.split(/\r\n|\n/);
+                    const headers = headerRowCheckbox.checked ? lines[0].split(delimiter) : null;
+                    const result = [];
+                   
+                    const startIndex = headerRowCheckbox.checked ? 1 : 0;
+                    for (let i = startIndex; i < lines.length; i++) {
+                        if (!lines[i]) continue;
+                       
+                        const obj = {};
+                        const currentline = lines[i].split(delimiter);
+                       
+                        if (headerRowCheckbox.checked) {
+                            for (let j = 0; j < headers.length; j++) {
+                                obj[headers[j]] = currentline[j] || '';
+                            }
+                        } else {
+                            for (let j = 0; j < currentline.length; j++) {
+                                obj[j] = currentline[j] || '';
+                            }
+                        }
+                       
+                        result.push(obj);
+                    }
+                   
+                    // Convert to JSON string
+                    jsonResult = minifyCheckbox.checked
+                        ? JSON.stringify(result)
+                        : JSON.stringify(result, null, 2);
+                   
+                    // Display result
+                    jsonOutput.textContent = jsonResult;
+                    downloadContainer.classList.remove('hidden');
+                   
+                } catch (error) {
+                    console.error('Error converting CSV to JSON:', error);
+                    showError('Error converting CSV. Please check your file format and delimiter.');
+                } finally {
+                    convertBtn.disabled = false;
+                    convertBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Convert to JSON';
+                }
+            });
+
+
+            // Copy JSON to clipboard
+            copyBtn.addEventListener('click', () => {
+                if (!jsonResult) return;
+               
+                navigator.clipboard.writeText(jsonResult).then(() => {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    showError('Failed to copy to clipboard');
+                });
+            });
+
+
+            // Download JSON
+            downloadBtn.addEventListener('click', () => {
+                if (!jsonResult) return;
+               
+                const blob = new Blob([jsonResult], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted_data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+</html>
+

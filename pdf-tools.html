@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF tools - merge, split, compress, convert PDF to Word, Word to PDF, edit PDFs, convert to images and more. No installation required.">
+    <title>Free PDF Tools Online | Merge, Split, Convert PDFs | StackoTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="canonical" href="https://yourdomain.com/pdf-tools.html" />
+    <style>
+        .pdf-tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .pdf-tool-card {
+            transition: all 0.2s ease;
+        }
+        .pdf-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #EF4444;
+            color: white;
+            border-radius: 9999px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .overlay.open {
+            opacity: 0.5;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-red-50 to-orange-50 py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <nav class="flex justify-center mb-4" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <li class="inline-flex items-center">
+                            <a href="index.html" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                                <i class="fas fa-home mr-2"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">PDF Tools</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Free Online PDF Tools</h1>
+                <p class="text-lg text-gray-600">Edit, convert, merge, split and compress PDF files online. No watermarks, no installation - 100% free PDF solutions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Category Description -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex items-start">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">PDF Tools Collection</h2>
+                    <p class="text-gray-600 mb-4">Our complete suite of PDF tools helps you work with PDF documents effortlessly. Whether you need to merge multiple PDFs into one, split pages from a PDF, convert to editable Word format, or reduce file size, we've got you covered. All tools work directly in your browser with no file size limits.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">PDF Merge</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">PDF Split</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">PDF to Word</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">Word to PDF</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">PDF Compress</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-gray-100">PDF Edit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF Tools Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Word to PDF -->
+            <a href="word-to-pdf.html" class="pdf-tool-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                <div class="p-5">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-pdf text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Word to PDF</h3>
+                    <p class="text-gray-600 text-sm">Convert Word docs to PDF format</p>
+                </div>
+            </a>
+
+            <!-- Text to PDF -->
+            <a href="text-to-pdf.html" class="pdf-tool-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                <div class="p-5">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Text to PDF</h3>
+                    <p class="text-gray-600 text-sm">Convert Text to PDF format</p>
+                </div>
+            </a>
+
+            <!-- Image to PDF -->
+            <a href="image-to-pdf.html" class="pdf-tool-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                <div class="p-5">
+                    <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-pdf text-teal-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Image to PDF</h3>
+                    <p class="text-gray-600 text-sm">Convert JPG, PNG to PDF documents</p>
+                </div>
+            </a>
+
+            <!-- PDF to JPG -->
+            <a href="pdf-to-jpg.html" class="pdf-tool-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+                <div class="p-5">
+                    <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-image text-green-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">PDF to JPG</h3>
+                    <p class="text-gray-600 text-sm">Convert Your PDF to JPG</p>
+                </div>
+            </a>
+
+            <!-- CSV to json -->
+            <a href="csv-to-json.html" class="tool-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:border-blue-200">
+                    <div class="p-6">
+                        <div class="w-14 h-14 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-file-excel text-teal-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">CSV to JSON</h3>
+                        <p class="text-gray-600 text-sm">Convert CSV data to JSON format easily</p>
+                    </div>
+                </a>
+
+        </div>
+
+        <!-- Security & Privacy Section -->
+        <section class="mt-16 bg-white rounded-xl shadow-sm p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Your PDF Files Are Secure</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex items-start">
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                        <i class="fas fa-shield-alt text-red-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Bank-Level Security</h3>
+                        <p class="text-gray-600">All file transfers use SSL encryption to protect your documents.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                        <i class="fas fa-clock text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Auto Deletion</h3>
+                        <p class="text-gray-600">Uploaded files are automatically deleted after processing.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                        <i class="fas fa-cloud text-green-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Cloud Processing</h3>
+                        <p class="text-gray-600">Files are processed in the cloud - no downloads required.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">How To Use Our PDF Tools</h2>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-blue-600 font-bold text-xl">1</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Select Tool</h3>
+                        <p class="text-gray-600 text-sm">Choose the PDF tool you need from our collection</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-purple-600 font-bold text-xl">2</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Upload Files</h3>
+                        <p class="text-gray-600 text-sm">Add your PDF or other files from device or cloud</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-green-600 font-bold text-xl">3</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Process</h3>
+                        <p class="text-gray-600 text-sm">Let our tool work its magic (usually just seconds)</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-red-600 font-bold text-xl">4</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Download</h3>
+                        <p class="text-gray-600 text-sm">Get your processed file with one click</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+       
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+       
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    </script>
+</body>
+</html>

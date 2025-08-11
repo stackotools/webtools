@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online word counter tool. Count words, characters, sentences, and paragraphs instantly. Perfect for writers, students, and professionals.">
+    <meta name="keywords" content="word counter, character counter, online word count, text analyzer, writing tool">
+    <title>Word Counter | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        textarea { resize: none; }
+        .count-box { transition: all 0.2s ease; }
+        .count-box:hover { transform: scale(1.05); }
+        @media (max-width: 640px) {
+            .converter-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (same as main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-font text-purple-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Word Counter Tool</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Count words, characters, sentences, and paragraphs in your text instantly. Perfect for writers, students, and content creators.
+            </p>
+        </div>
+
+
+        <!-- Word Counter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div class="mb-4">
+                        <label for="textInput" class="block text-sm font-medium text-gray-700 mb-2">Enter your text below:</label>
+                        <textarea id="textInput" rows="12" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Type or paste your text here..."></textarea>
+                    </div>
+
+
+                    <!-- Action Buttons -->
+                    <div class="mt-4 flex flex-col sm:flex-row gap-3">
+                        <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                            Clear Text
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full">
+                        <h3 class="font-medium text-gray-700 mb-4 text-center">Text Statistics</h3>
+                       
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="count-box bg-blue-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-blue-600" id="wordCount">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Words</div>
+                            </div>
+                            <div class="count-box bg-green-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-green-600" id="charCount">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Characters</div>
+                            </div>
+                            <div class="count-box bg-yellow-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-yellow-600" id="charNoSpacesCount">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Characters (no spaces)</div>
+                            </div>
+                            <div class="count-box bg-red-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-red-600" id="sentenceCount">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Sentences</div>
+                            </div>
+                            <div class="count-box bg-purple-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-purple-600" id="paragraphCount">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Paragraphs</div>
+                            </div>
+                            <div class="count-box bg-indigo-50 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold text-indigo-600" id="readingTime">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Reading Time (mins)</div>
+                            </div>
+                        </div>
+
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-gray-700 mb-2">Keyword Density</h4>
+                            <div id="keywordDensity" class="text-sm text-gray-600">
+                                Enter text to analyze keyword density...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Word Counter</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Enter Your Text</h3>
+                        <p class="text-gray-600 text-sm">Type or paste your text into the input box. The counts will update automatically as you type.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">View Statistics</h3>
+                        <p class="text-gray-600 text-sm">See real-time counts for words, characters, sentences, paragraphs, and reading time.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Analyze Keywords</h3>
+                        <p class="text-gray-600 text-sm">Check keyword density to optimize your content for SEO or writing goals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SEO Content Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Why Use Our Word Counter?</h2>
+                <div class="prose max-w-none text-gray-700">
+                    <p>Our free online word counter provides accurate, real-time statistics about your text. Whether you're a writer working on an article, a student crafting an essay, or a social media manager optimizing posts, this tool helps you:</p>
+                   
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Meet word count requirements for assignments and submissions</li>
+                        <li>Optimize content length for SEO and readability</li>
+                        <li>Track writing progress and set daily goals</li>
+                        <li>Analyze keyword density for better content optimization</li>
+                        <li>Estimate reading time for better audience engagement</li>
+                    </ul>
+                   
+                    <h3 class="font-semibold text-lg mt-4 text-gray-800">How We Count Words</h3>
+                    <p>Our word counter follows standard counting methods:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Words:</strong> Groups of characters separated by spaces</li>
+                        <li><strong>Characters:</strong> All visible characters including spaces</li>
+                        <li><strong>Characters (no spaces):</strong> Only visible characters excluding spaces</li>
+                        <li><strong>Sentences:</strong> Groups of words ending with punctuation (.!?)</li>
+                        <li><strong>Paragraphs:</strong> Blocks of text separated by line breaks</li>
+                        <li><strong>Reading Time:</strong> Based on average reading speed of 200 words per minute</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer (same as main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="img-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Word Counter -->
+    <script>
+        // Mobile menu toggle (same as main site)
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+
+        // Word Counter Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const textInput = document.getElementById('textInput');
+            const clearBtn = document.getElementById('clearBtn');
+           
+            // Count elements
+            const wordCountEl = document.getElementById('wordCount');
+            const charCountEl = document.getElementById('charCount');
+            const charNoSpacesCountEl = document.getElementById('charNoSpacesCount');
+            const sentenceCountEl = document.getElementById('sentenceCount');
+            const paragraphCountEl = document.getElementById('paragraphCount');
+            const readingTimeEl = document.getElementById('readingTime');
+            const keywordDensityEl = document.getElementById('keywordDensity');
+
+
+            // Update counts on input
+            textInput.addEventListener('input', updateCounts);
+           
+            // Clear text
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                updateCounts();
+            });
+
+
+            // Initial update
+            updateCounts();
+
+
+            function updateCounts() {
+                const text = textInput.value;
+               
+                // Word count (split by whitespace and filter out empty strings)
+                const words = text.trim() === '' ? [] : text.trim().split(/\s+/);
+                const wordCount = words.length;
+               
+                // Character counts
+                const charCount = text.length;
+                const charNoSpacesCount = text.replace(/\s+/g, '').length;
+               
+                // Sentence count (split by .!? followed by space or end of string)
+                const sentences = text.trim() === '' ? [] : text.split(/[.!?]+(?=\s|$)/).filter(s => s.trim().length > 0);
+                const sentenceCount = sentences.length;
+               
+                // Paragraph count (split by line breaks)
+                const paragraphs = text.trim() === '' ? [] : text.split(/\n+/).filter(p => p.trim().length > 0);
+                const paragraphCount = paragraphs.length;
+               
+                // Reading time (200 words per minute)
+                const readingTime = Math.ceil(wordCount / 200) || 0;
+               
+                // Update the DOM
+                wordCountEl.textContent = wordCount.toLocaleString();
+                charCountEl.textContent = charCount.toLocaleString();
+                charNoSpacesCountEl.textContent = charNoSpacesCount.toLocaleString();
+                sentenceCountEl.textContent = sentenceCount.toLocaleString();
+                paragraphCountEl.textContent = paragraphCount.toLocaleString();
+                readingTimeEl.textContent = readingTime.toLocaleString();
+               
+                // Update keyword density if there's text
+                if (wordCount > 0) {
+                    updateKeywordDensity(words);
+                } else {
+                    keywordDensityEl.innerHTML = 'Enter text to analyze keyword density...';
+                }
+            }
+
+
+            function updateKeywordDensity(words) {
+                // Create a frequency map
+                const frequencyMap = {};
+                const totalWords = words.length;
+               
+                words.forEach(word => {
+                    // Normalize word (lowercase, remove punctuation)
+                    const normalizedWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+                    if (normalizedWord.length > 0) {
+                        frequencyMap[normalizedWord] = (frequencyMap[normalizedWord] || 0) + 1;
+                    }
+                });
+               
+                // Convert to array and sort by frequency
+                const sortedKeywords = Object.entries(frequencyMap)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10); // Show top 10
+               
+                // Create HTML for keyword density
+                let html = '<div class="space-y-2">';
+               
+                if (sortedKeywords.length > 0) {
+                    sortedKeywords.forEach(([word, count]) => {
+                        const percentage = ((count / totalWords) * 100).toFixed(2);
+                        html += `
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">${word}</span>
+                                <div class="flex items-center w-1/2">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${percentage}%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">${percentage}%</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += '<p class="text-sm">No keywords to display</p>';
+                }
+               
+                html += '</div>';
+                keywordDensityEl.innerHTML = html;
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online color picker tool. Get HEX, RGB, HSL color codes. Create color palettes and test color combinations. Perfect for designers and developers.">
+    <meta name="keywords" content="color picker, color tool, hex color, rgb color, hsl color, color palette, web design colors, color scheme generator">
+    <meta name="author" content="StackoTools">
+    <meta property="og:title" content="Color Picker Tool | StackoTools - Free Online Tools">
+    <meta property="og:description" content="Free online color picker tool. Get HEX, RGB, HSL color codes. Create color palettes and test color combinations.">
+    <meta property="og:type" content="website">
+    <title>Color Picker Tool | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tool-card { transition: all 0.3s ease; }
+        .color-preview { transition: all 0.2s ease; }
+        .color-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .color-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .color-history-item {
+            transition: transform 0.2s ease;
+        }
+        .color-history-item:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 640px) {
+            .color-picker-container {
+                flex-direction: column;
+            }
+            .color-values {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header (consistent with main site) -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-gradient-to-r from-red-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-eye-dropper text-white text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Color Picker Tool</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Select, convert, and test colors for your designs. Get HEX, RGB, and HSL codes instantly.
+            </p>
+        </div>
+
+        <!-- Color Picker Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 color-picker-container flex flex-col md:flex-row gap-6">
+                <!-- Color Selection Area -->
+                <div class="flex-1">
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-700 mb-3">Color Picker</h3>
+                        <div class="relative h-64 w-full rounded-lg overflow-hidden mb-4" id="colorCanvasContainer">
+                            <canvas id="colorCanvas" class="absolute inset-0 w-full h-full cursor-crosshair"></canvas>
+                            <div id="colorPickerCursor" class="absolute w-3 h-3 border-2 border-white rounded-full pointer-events-none shadow-lg" style="transform: translate(-50%, -50%);"></div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label for="hueSlider" class="block text-sm font-medium text-gray-700 mb-1">Hue</label>
+                                <input type="range" id="hueSlider" min="0" max="360" value="0" class="w-full color-slider hue-slider">
+                            </div>
+                            <div>
+                                <label for="saturationSlider" class="block text-sm font-medium text-gray-700 mb-1">Saturation</label>
+                                <input type="range" id="saturationSlider" min="0" max="100" value="100" class="w-full color-slider">
+                            </div>
+                            <div>
+                                <label for="lightnessSlider" class="block text-sm font-medium text-gray-700 mb-1">Lightness</label>
+                                <input type="range" id="lightnessSlider" min="0" max="100" value="50" class="w-full color-slider">
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1">
+                                <label for="colorInput" class="block text-sm font-medium text-gray-700 mb-1">Color Code</label>
+                                <div class="flex">
+                                    <input type="text" id="colorInput" value="#ff0000" class="flex-1 rounded-l-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <button id="copyColorBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-r-lg">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Preview</label>
+                                <div id="colorPreview" class="w-12 h-12 rounded-lg border border-gray-300" style="background-color: #ff0000;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Color History -->
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">Recently Used Colors</h3>
+                            <button id="clearHistoryBtn" class="text-sm text-gray-500 hover:text-gray-700">Clear</button>
+                        </div>
+                        <div id="colorHistory" class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2">
+                            <!-- Color history items will be added here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Color Information -->
+                <div class="flex-1">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-medium text-gray-700 mb-3">Color Information</h3>
+                        
+                        <div class="grid grid-cols-1 gap-4 color-values">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">HEX</label>
+                                <div class="flex">
+                                    <input type="text" id="hexValue" value="#ff0000" readonly class="flex-1 rounded-l-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    <button data-target="hexValue" class="copy-value-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-r-lg">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">RGB</label>
+                                <div class="flex">
+                                    <input type="text" id="rgbValue" value="rgb(255, 0, 0)" readonly class="flex-1 rounded-l-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    <button data-target="rgbValue" class="copy-value-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-r-lg">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">HSL</label>
+                                <div class="flex">
+                                    <input type="text" id="hslValue" value="hsl(0, 100%, 50%)" readonly class="flex-1 rounded-l-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    <button data-target="hslValue" class="copy-value-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-r-lg">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CMYK</label>
+                                <div class="flex">
+                                    <input type="text" id="cmykValue" value="cmyk(0%, 100%, 100%, 0%)" readonly class="flex-1 rounded-l-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    <button data-target="cmykValue" class="copy-value-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-r-lg">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h3 class="font-medium text-gray-700 mb-3">Color Contrast Checker</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
+                                    <div class="flex">
+                                        <input type="color" id="textColor" value="#ffffff" class="h-10 w-10 rounded-l-lg border border-gray-300 cursor-pointer">
+                                        <input type="text" id="textColorValue" value="#ffffff" class="flex-1 rounded-r-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Background</label>
+                                    <div class="flex">
+                                        <input type="color" id="bgColor" value="#ff0000" class="h-10 w-10 rounded-l-lg border border-gray-300 cursor-pointer">
+                                        <input type="text" id="bgColorValue" value="#ff0000" class="flex-1 rounded-r-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="contrastResult" class="mt-4 p-3 rounded-lg text-center">
+                                <div class="text-lg font-semibold mb-1">Contrast Ratio: <span id="contrastRatio">4.00</span></div>
+                                <div id="contrastRating" class="text-sm font-medium">AAA (Excellent)</div>
+                            </div>
+                            
+                            <div class="mt-4 p-3 border rounded-lg bg-gray-50">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium">Sample Text</span>
+                                    <div class="text-xs text-gray-500">Size: 18px</div>
+                                </div>
+                                <div id="contrastPreview" class="p-3 rounded text-center font-medium" style="background-color: #ff0000; color: #ffffff;">
+                                    The quick brown fox jumps over the lazy dog
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Color Picker</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">1</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Select Color</h3>
+                        <p class="text-gray-600 text-sm">Click or drag on the color canvas or use the sliders to choose your desired color.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">2</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Get Color Codes</h3>
+                        <p class="text-gray-600 text-sm">Copy HEX, RGB, HSL, or CMYK values for use in your projects.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-blue-600 font-bold">3</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2">Test Contrast</h3>
+                        <p class="text-gray-600 text-sm">Check readability by testing color combinations against WCAG standards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Theory Tips -->
+        <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Color Theory Tips</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-medium text-gray-800 mb-2">Color Harmony</h3>
+                        <p class="text-gray-600 text-sm mb-3">Colors that look good together are called color harmonies. Common harmonies include complementary, analogous, and triadic color schemes.</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="h-8 rounded" style="background-color: #ff0000;"></div>
+                            <div class="h-8 rounded" style="background-color: #00ff00;"></div>
+                            <div class="h-8 rounded" style="background-color: #0000ff;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800 mb-2">Accessibility Matters</h3>
+                        <p class="text-gray-600 text-sm">WCAG recommends a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text. Aim for AAA (7:1) for optimal accessibility.</p>
+                        <div class="mt-3 grid grid-cols-2 gap-2">
+                            <div class="h-8 rounded flex items-center justify-center text-xs font-medium" style="background-color: #000000; color: #ffffff;">AAA</div>
+                            <div class="h-8 rounded flex items-center justify-center text-xs font-medium" style="background-color: #333333; color: #ffffff;">AA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (consistent with main site) -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="image-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Img to Pdf</a></li>
+                        <li><a href="word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                        <li><a href="color-picker.html" class="text-gray-400 hover:text-white text-sm">Color Picker</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Color Picker -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle (consistent with main site)
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
+
+    // Color Picker Logic
+    const colorCanvas = document.getElementById('colorCanvas');
+    const ctx = colorCanvas.getContext('2d');
+    const colorPickerCursor = document.getElementById('colorPickerCursor');
+    const hueSlider = document.getElementById('hueSlider');
+    const saturationSlider = document.getElementById('saturationSlider');
+    const lightnessSlider = document.getElementById('lightnessSlider');
+    const colorInput = document.getElementById('colorInput');
+    const colorPreview = document.getElementById('colorPreview');
+    const hexValue = document.getElementById('hexValue');
+    const rgbValue = document.getElementById('rgbValue');
+    const hslValue = document.getElementById('hslValue');
+    const cmykValue = document.getElementById('cmykValue');
+    const copyColorBtn = document.getElementById('copyColorBtn');
+    const colorHistory = document.getElementById('colorHistory');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const textColor = document.getElementById('textColor');
+    const bgColor = document.getElementById('bgColor');
+    const textColorValue = document.getElementById('textColorValue');
+    const bgColorValue = document.getElementById('bgColorValue');
+    const contrastRatio = document.getElementById('contrastRatio');
+    const contrastRating = document.getElementById('contrastRating');
+    const contrastPreview = document.getElementById('contrastPreview');
+    const contrastResult = document.getElementById('contrastResult');
+
+    let currentColor = '#ff0000';
+    let colorHistoryItems = JSON.parse(localStorage.getItem('colorHistory')) || [];
+
+    // Initialize color picker
+    function initColorPicker() {
+        initColorCanvas();
+        renderColorHistory();
+        updateColorValues();
+        setupEventListeners();
+    }
+
+    // Initialize color picker canvas
+    function initColorCanvas() {
+        const container = document.getElementById('colorCanvasContainer');
+        colorCanvas.width = container.offsetWidth;
+        colorCanvas.height = container.offsetHeight;
+        
+        drawColorCanvas();
+        
+        // Set initial cursor position (center)
+        const x = colorCanvas.width / 2;
+        const y = colorCanvas.height / 2;
+        colorPickerCursor.style.left = `${x}px`;
+        colorPickerCursor.style.top = `${y}px`;
+        updateColorFromPosition(x, y);
+    }
+
+    // Draw color canvas with current hue
+    function drawColorCanvas() {
+        const hue = hueSlider.value;
+        const width = colorCanvas.width;
+        const height = colorCanvas.height;
+        
+        // Draw saturation (x) and lightness (y) gradient
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                const s = x / width * 100;
+                const l = 100 - (y / height * 100);
+                ctx.fillStyle = `hsl(${hue}, ${s}%, ${l}%)`;
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+    }
+
+    // Update color from canvas position
+    function updateColorFromPosition(x, y) {
+        const rect = colorCanvas.getBoundingClientRect();
+        const canvasX = x - rect.left;
+        const canvasY = y - rect.top;
+        
+        // Ensure coordinates are within canvas
+        if (canvasX < 0 || canvasX > colorCanvas.width || canvasY < 0 || canvasY > colorCanvas.height) {
+            return;
+        }
+        
+        // Update cursor position
+        colorPickerCursor.style.left = `${x}px`;
+        colorPickerCursor.style.top = `${y}px`;
+        
+        // Get color from canvas
+        const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
+        const r = pixel[0];
+        const g = pixel[1];
+        const b = pixel[2];
+        
+        currentColor = rgbToHex(r, g, b);
+        updateColorValues();
+    }
+
+    // Convert RGB to HEX
+    function rgbToHex(r, g, b) {
+        return '#' + [r, g, b].map(x => {
+            const hex = x.toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('');
+    }
+
+    // Convert HEX to RGB
+    function hexToRgb(hex) {
+        // Remove # if present
+        hex = hex.replace('#', '');
+        
+        // Parse r, g, b values
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        
+        return { r, g, b };
+    }
+
+    // Convert RGB to HSL
+    function rgbToHsl(r, g, b) {
+        r /= 255, g /= 255, b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+
+        if (max === min) {
+            h = s = 0; // achromatic
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+
+        return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100)
+        };
+    }
+
+    // Convert HSL to RGB
+    function hslToRgb(h, s, l) {
+        h /= 360;
+        s /= 100;
+        l /= 100;
+        
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l; // achromatic
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+
+        return {
+            r: Math.round(r * 255),
+            g: Math.round(g * 255),
+            b: Math.round(b * 255)
+        };
+    }
+
+    // Convert RGB to CMYK
+    function rgbToCmyk(r, g, b) {
+        if (r === 0 && g === 0 && b === 0) {
+            return { c: 0, m: 0, y: 0, k: 100 };
+        }
+        
+        let c = 1 - (r / 255);
+        let m = 1 - (g / 255);
+        let y = 1 - (b / 255);
+        
+        const minCMY = Math.min(c, m, y);
+        c = (c - minCMY) / (1 - minCMY);
+        m = (m - minCMY) / (1 - minCMY);
+        y = (y - minCMY) / (1 - minCMY);
+        const k = minCMY;
+        
+        return {
+            c: Math.round(c * 100),
+            m: Math.round(m * 100),
+            y: Math.round(y * 100),
+            k: Math.round(k * 100)
+        };
+    }
+
+    // Update all color values based on current color
+    function updateColorValues() {
+        // Update preview
+        colorPreview.style.backgroundColor = currentColor;
+        colorInput.value = currentColor;
+        
+        // Get RGB values
+        const rgb = hexToRgb(currentColor);
+        const rgbStr = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        rgbValue.value = rgbStr;
+        
+        // Get HSL values
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+        const hslStr = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        hslValue.value = hslStr;
+        
+        // Get CMYK values
+        const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+        const cmykStr = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
+        cmykValue.value = cmykStr;
+        
+        // Update sliders
+        hueSlider.value = hsl.h;
+        saturationSlider.value = hsl.s;
+        lightnessSlider.value = hsl.l;
+        
+        // Redraw canvas with new hue
+        drawColorCanvas();
+        
+        // Update contrast checker background
+        bgColor.value = currentColor;
+        bgColorValue.value = currentColor;
+        updateContrast();
+    }
+
+    // Update color from sliders
+    function updateColorFromSliders() {
+        const h = hueSlider.value;
+        const s = saturationSlider.value;
+        const l = lightnessSlider.value;
+        
+        const rgb = hslToRgb(h, s, l);
+        currentColor = rgbToHex(rgb.r, rgb.g, rgb.b);
+        
+        // Update color preview and values
+        updateColorValues();
+        
+        // Update cursor position based on saturation and lightness
+        const x = (s / 100) * colorCanvas.width;
+        const y = colorCanvas.height - (l / 100) * colorCanvas.height;
+        const rect = colorCanvas.getBoundingClientRect();
+        colorPickerCursor.style.left = `${rect.left + x}px`;
+        colorPickerCursor.style.top = `${rect.top + y}px`;
+    }
+
+    // Calculate contrast ratio between two colors
+    function getContrastRatio(color1, color2) {
+        // Get luminance for each color
+        const lum1 = getLuminance(color1);
+        const lum2 = getLuminance(color2);
+        
+        // Calculate contrast ratio
+        const lighter = Math.max(lum1, lum2);
+        const darker = Math.min(lum1, lum2);
+        const ratio = (lighter + 0.05) / (darker + 0.05);
+        
+        return Math.round(ratio * 100) / 100;
+    }
+
+    // Calculate relative luminance of a color
+    function getLuminance(color) {
+        // Convert hex to RGB
+        const rgb = hexToRgb(color);
+        
+        // Convert sRGB to linear RGB
+        const r = rgb.r / 255 <= 0.03928 ? rgb.r / 255 / 12.92 : Math.pow((rgb.r / 255 + 0.055) / 1.055, 2.4);
+        const g = rgb.g / 255 <= 0.03928 ? rgb.g / 255 / 12.92 : Math.pow((rgb.g / 255 + 0.055) / 1.055, 2.4);
+        const b = rgb.b / 255 <= 0.03928 ? rgb.b / 255 / 12.92 : Math.pow((rgb.b / 255 + 0.055) / 1.055, 2.4);
+        
+        // Calculate luminance
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    // Update contrast checker
+    function updateContrast() {
+        const textColorHex = textColor.value;
+        const bgColorHex = bgColor.value;
+        
+        // Update preview
+        contrastPreview.style.backgroundColor = bgColorHex;
+        contrastPreview.style.color = textColorHex;
+        
+        // Calculate contrast ratio
+        const ratio = getContrastRatio(textColorHex, bgColorHex);
+        contrastRatio.textContent = ratio.toFixed(2);
+        
+        // Determine contrast rating
+        let rating = '';
+        let ratingClass = '';
+        
+        if (ratio >= 7) {
+            rating = 'AAA (Excellent)';
+            ratingClass = 'bg-green-100 text-green-800';
+        } else if (ratio >= 4.5) {
+            rating = 'AA (Good)';
+            ratingClass = 'bg-blue-100 text-blue-800';
+        } else if (ratio >= 3) {
+            rating = 'AA Large Text';
+            ratingClass = 'bg-yellow-100 text-yellow-800';
+        } else {
+            rating = 'Fail (Poor)';
+            ratingClass = 'bg-red-100 text-red-800';
+        }
+        
+        contrastRating.textContent = rating;
+        contrastRating.className = 'text-sm font-medium ' + ratingClass;
+        contrastResult.className = 'mt-4 p-3 rounded-lg text-center ' + ratingClass;
+    }
+
+    // Add color to history
+    function addToColorHistory(color) {
+        // Remove color if it already exists in history
+        colorHistoryItems = colorHistoryItems.filter(c => c !== color);
+        
+        // Add color to beginning of array
+        colorHistoryItems.unshift(color);
+        
+        // Limit history to 20 colors
+        if (colorHistoryItems.length > 20) {
+            colorHistoryItems = colorHistoryItems.slice(0, 20);
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('colorHistory', JSON.stringify(colorHistoryItems));
+        
+        // Update UI
+        renderColorHistory();
+    }
+
+    // Render color history
+    function renderColorHistory() {
+        colorHistory.innerHTML = '';
+        
+        colorHistoryItems.forEach(color => {
+            const colorItem = document.createElement('div');
+            colorItem.className = 'color-history-item w-8 h-8 rounded-lg border border-gray-200 cursor-pointer';
+            colorItem.style.backgroundColor = color;
+            colorItem.title = color;
+            
+            colorItem.addEventListener('click', () => {
+                currentColor = color;
+                updateColorValues();
+                addToColorHistory(color);
+            });
+            
+            colorHistory.appendChild(colorItem);
+        });
+    }
+
+    // Clear color history
+    function clearColorHistory() {
+        colorHistoryItems = [];
+        localStorage.removeItem('colorHistory');
+        renderColorHistory();
+    }
+
+    // Copy color to clipboard
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Show success message
+            const tooltip = document.createElement('div');
+            tooltip.className = 'absolute bg-gray-800 text-white text-xs px-2 py-1 rounded bottom-full mb-1';
+            tooltip.textContent = 'Copied!';
+            
+            const button = event.currentTarget;
+            button.appendChild(tooltip);
+            
+            setTimeout(() => {
+                button.removeChild(tooltip);
+            }, 1000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Canvas click/drag
+        colorCanvas.addEventListener('mousedown', (e) => {
+            updateColorFromPosition(e.clientX, e.clientY);
+            
+            const moveHandler = (e) => {
+                updateColorFromPosition(e.clientX, e.clientY);
+            };
+            
+            const upHandler = () => {
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('mouseup', upHandler);
+                addToColorHistory(currentColor);
+            };
+            
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', upHandler);
+        });
+        
+        // Slider changes
+        hueSlider.addEventListener('input', () => {
+            updateColorFromSliders();
+        });
+        
+        saturationSlider.addEventListener('input', () => {
+            updateColorFromSliders();
+        });
+        
+        lightnessSlider.addEventListener('input', () => {
+            updateColorFromSliders();
+        });
+        
+        // Manual color input
+        colorInput.addEventListener('change', () => {
+            const color = colorInput.value;
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                currentColor = color;
+                updateColorValues();
+                addToColorHistory(color);
+            } else {
+                colorInput.value = currentColor;
+            }
+        });
+        
+        // Copy buttons
+        copyColorBtn.addEventListener('click', (e) => {
+            copyToClipboard(currentColor);
+        });
+        
+        document.querySelectorAll('.copy-value-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = button.getAttribute('data-target');
+                const text = document.getElementById(targetId).value;
+                copyToClipboard(text);
+            });
+        });
+        
+        // Color history
+        clearHistoryBtn.addEventListener('click', clearColorHistory);
+        
+        // Contrast checker
+        textColor.addEventListener('input', () => {
+            textColorValue.value = textColor.value;
+            updateContrast();
+        });
+        
+        bgColor.addEventListener('input', () => {
+            bgColorValue.value = bgColor.value;
+            updateContrast();
+        });
+        
+        textColorValue.addEventListener('change', () => {
+            const color = textColorValue.value;
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                textColor.value = color;
+                updateContrast();
+            } else {
+                textColorValue.value = textColor.value;
+            }
+        });
+        
+        bgColorValue.addEventListener('change', () => {
+            const color = bgColorValue.value;
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                bgColor.value = color;
+                updateContrast();
+            } else {
+                bgColorValue.value = bgColor.value;
+            }
+        });
+    }
+
+    // Initialize the color picker
+    initColorPicker();
+});
+</script>
+</body>
+</html>

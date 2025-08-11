@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StackoTools Cookie Policy - Learn how we use cookies to enhance your experience on our free online tools website.">
+    <meta name="robots" content="index, follow">
+    <title>Cookie Policy | StackoTools - Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="canonical" href="https://stackotools.com/cookie-policy.html">
+    <style>
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay.open {
+            display: block;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo on left -->
+            <a href="/" class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+
+            <!-- Menu button on right for mobile -->
+            <button id="menu-toggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Desktop navigation (hidden on mobile) -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <article class="bg-white rounded-lg shadow-md overflow-hidden max-w-4xl mx-auto">
+            <!-- Header with breadcrumb -->
+            <div class="bg-gray-50 px-6 py-4 border-b">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <li class="inline-flex items-center">
+                            <a href="index.html" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                                <i class="fas fa-home mr-2"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fas fa-angle-right text-gray-400 mx-2"></i>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Cookie Policy</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            
+            <!-- Page Content -->
+            <div class="px-6 py-8 md:px-10">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Cookie Policy</h1>
+                <p class="text-gray-600 mb-6">Last updated: <time datetime="2023-11-15">November 15, 2023</time></p>
+                
+                <div class="prose max-w-none">
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Introduction</h2>
+                        <p class="text-gray-600 mb-4">This Cookie Policy explains how StackoTools ("we", "us", or "our") uses cookies and similar tracking technologies when you visit our website <a href="https://stackotools.com" class="text-blue-600 hover:underline">https://stackotools.com</a> and any of its subdomains (collectively, the "Site").</p>
+                        <p class="text-gray-600">By using our Site, you consent to the use of cookies in accordance with this policy. If you do not agree to our use of cookies, you should set your browser settings accordingly or not use our Site.</p>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. What Are Cookies?</h2>
+                        <p class="text-gray-600 mb-4">Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently, as well as to provide information to the site owners.</p>
+                        <p class="text-gray-600">Cookies may be either "persistent" cookies or "session" cookies. Persistent cookies remain on your device when you go offline, while session cookies are deleted as soon as you close your web browser.</p>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">3. How We Use Cookies</h2>
+                        <p class="text-gray-600 mb-4">We use cookies for the following purposes:</p>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Essential Cookies</h3>
+                            <p class="text-gray-600 mb-2">These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in, or filling in forms.</p>
+                            <p class="text-gray-600">You can set your browser to block or alert you about these cookies, but some parts of the site will not then work.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Performance Cookies</h3>
+                            <p class="text-gray-600">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Functional Cookies</h3>
+                            <p class="text-gray-600">These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third-party providers whose services we have added to our pages.</p>
+                        </div>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">4. Third-Party Cookies</h2>
+                        <p class="text-gray-600 mb-4">In addition to our own cookies, we may also use various third-party cookies to report usage statistics of the Site, deliver advertisements on and through the Site, and so on.</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Privacy Policy</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm text-gray-600">Google Analytics</td>
+                                        <td class="px-4 py-3 text-sm text-gray-600">Website analytics and performance measurement</td>
+                                        <td class="px-4 py-3 text-sm text-blue-600"><a href="https://policies.google.com/privacy" class="hover:underline">View Policy</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm text-gray-600">Google Ads</td>
+                                        <td class="px-4 py-3 text-sm text-gray-600">Advertising and remarketing</td>
+                                        <td class="px-4 py-3 text-sm text-blue-600"><a href="https://policies.google.com/technologies/ads" class="hover:underline">View Policy</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">5. Your Choices Regarding Cookies</h2>
+                        <p class="text-gray-600 mb-4">You have several options to control or limit how we and our partners use cookies:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-600 mb-4">
+                            <li><strong>Browser controls:</strong> Most web browsers allow some control of most cookies through the browser settings. You can set or amend your web browser controls to accept or refuse cookies.</li>
+                            <li><strong>Opt-out tools:</strong> You can opt out of certain third-party cookies by visiting the Network Advertising Initiative's Opt-Out page or the Digital Advertising Alliance's Opt-Out page.</li>
+                            <li><strong>Cookie consent banner:</strong> When you first visit our website, we present you with a cookie consent banner where you can manage your preferences.</li>
+                        </ul>
+                        <p class="text-gray-600">Please note that if you disable cookies entirely, some features of our Site may not function properly.</p>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">6. Changes to This Cookie Policy</h2>
+                        <p class="text-gray-600">We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will post any changes on this page and, if the changes are significant, we will provide a more prominent notice.</p>
+                    </section>
+                    
+                    <section>
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">7. Contact Us</h2>
+                        <p class="text-gray-600">If you have any questions about our use of cookies or other technologies, please contact us at:</p>
+                        <address class="not-italic mt-2">
+                            <p class="text-gray-600">Email: <a href="mailto:privacy@stackotools.com" class="text-blue-600 hover:underline">privacy@stackotools.com</a></p>
+                            <p class="text-gray-600">Or through our <a href="contact.html" class="text-blue-600 hover:underline">Contact Page</a></p>
+                        </address>
+                    </section>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" class="text-gray-400 hover:text-white text-sm">Terms of Service</a></li>
+                        <li><a href="cookie-policy.html" class="text-blue-400 hover:text-white text-sm">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-blue-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+        
+        // Close sidebar when clicking on a link
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>

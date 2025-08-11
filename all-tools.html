@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse 100+ free online tools at StackoTools - calculators, converters, generators, PDF tools, image tools and more. All tools work instantly in your browser.">
+    <meta name="keywords" content="online tools, free tools, calculators, converters, PDF tools, image tools, word counter, age calculator, file transfer, QR generator">
+    <meta name="author" content="StackoTools">
+    <meta property="og:title" content="All Tools - StackoTools | 100+ Free Online Tools">
+    <meta property="og:description" content="Browse our complete collection of 100+ free online tools to simplify your work.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stackotools.com/all-tools.html">
+    <link rel="canonical" href="https://stackotools.com/all-tools.html">
+    <title>All Tools - StackoTools | 100+ Free Online Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay.open {
+            display: block;
+            opacity: 0.5;
+        }
+        .tool-card {
+            transition: all 0.3s ease;
+            position: relative;
+            display: block;
+            height: 100%;
+            background-color: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+        .tool-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: #3B82F6;
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        .filter-chip:hover {
+            background-color: #E5E7EB;
+        }
+        .tool-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 640px) {
+            .filter-chips-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            .filter-chip {
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center" aria-label="StackoTools Home">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg" aria-hidden="true"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+
+            <button id="menu-toggle" class="md:hidden text-gray-600" aria-label="Toggle menu">
+                <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+            </button>
+
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="all-tools.html" class="text-blue-600 font-medium">All Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg" aria-hidden="true"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500" aria-hidden="true"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500" aria-hidden="true"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500" aria-hidden="true"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500" aria-hidden="true"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500" aria-hidden="true"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500" aria-hidden="true"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Tools Hero Section -->
+    <section class="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">All Tools</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Browse our complete collection of 100+ free online tools to simplify your work</p>
+        </div>
+    </section>
+
+    <!-- All Tools Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <!-- Search and Filter Section -->
+            <div class="mb-8">
+                <div class="relative max-w-2xl mx-auto mb-6">
+                    <input type="text" placeholder="Search tools..." class="search-box w-full px-5 py-3 rounded-full border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 pl-12" aria-label="Search tools">
+                    <i class="fas fa-search absolute left-4 top-3.5 text-gray-400" aria-hidden="true"></i>
+                </div>
+                
+                <div class="text-center text-gray-500 text-sm mb-2">Jump to category</div>
+                
+                <div class="filter-chips-container flex flex-wrap justify-center gap-2 mb-6">
+                    <a href="all-tools.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        All Tools
+                    </a>
+                    <a href="calculator.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-calculator mr-1 text-blue-500" aria-hidden="true"></i> Calculators
+                    </a>
+                    <a href="pdf-tools.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-file-pdf mr-1 text-red-500" aria-hidden="true"></i> PDF Tools
+                    </a>
+                    <a href="image-tools.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-image mr-1 text-green-500" aria-hidden="true"></i> Image Tools
+                    </a>
+                    <a href="text-tools.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-font mr-1 text-purple-500" aria-hidden="true"></i> Text Tools
+                    </a>
+                    <a href="converters.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-exchange-alt mr-1 text-pink-500" aria-hidden="true"></i> Converters
+                    </a>
+                    <a href="developer-tools.html" class="filter-chip px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">
+                        <i class="fas fa-code mr-1 text-yellow-500" aria-hidden="true"></i> Dev Tools
+                    </a>
+                </div>
+                
+                <div class="text-center text-gray-500 text-sm">
+                    Showing <span id="tool-count">25</span> tools
+                </div>
+            </div>
+
+            <!-- Tools Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Age Calculator -->
+                <a href="age-calculator.html" class="tool-card" data-category="calculator" data-tool-name="age calculator">
+                    <span class="tool-badge">Popular</span>
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-blue-100">
+                            <i class="fas fa-birthday-cake text-blue-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Age Calculator</h3>
+                        <p class="text-gray-600 text-sm">Calculate exact age in years, months, and days</p>
+                    </div>
+                </a>
+                
+                <!-- Word to PDF -->
+                <a href="word-to-pdf.html" class="tool-card" data-category="pdf" data-tool-name="word to pdf converter">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-red-100">
+                            <i class="fas fa-file-word text-red-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Word to PDF</h3>
+                        <p class="text-gray-600 text-sm">Convert Word docs to PDF format</p>
+                    </div>
+                </a>
+                
+                <!-- Text to PDF -->
+                <a href="text-to-pdf.html" class="tool-card" data-category="pdf" data-tool-name="text to pdf converter">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-purple-100">
+                            <i class="fas fa-file-alt text-purple-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Text to PDF</h3>
+                        <p class="text-gray-600 text-sm">Convert Text to PDF format</p>
+                    </div>
+                </a>
+                
+                <!-- Image to PDF -->
+                <a href="image-to-pdf.html" class="tool-card" data-category="pdf" data-tool-name="image to pdf converter">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-teal-100">
+                            <i class="fas fa-file-image text-teal-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Image to PDF</h3>
+                        <p class="text-gray-600 text-sm">Convert JPG, PNG to PDF documents</p>
+                    </div>
+                </a>
+                
+                <!-- Image Resizer -->
+                <a href="image-resizer.html" class="tool-card" data-category="image" data-tool-name="image resizer">
+                    <span class="tool-badge">Popular</span>
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-green-100">
+                            <i class="fas fa-expand-alt text-green-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Image Resizer</h3>
+                        <p class="text-gray-600 text-sm">Resize images to any dimensions while maintaining quality</p>
+                    </div>
+                </a>
+                
+                <!-- Image Compressor -->
+                <a href="image-compressor.html" class="tool-card" data-category="image" data-tool-name="image compressor">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-green-100">
+                            <i class="fas fa-compress-alt text-green-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Image Compressor</h3>
+                        <p class="text-gray-600 text-sm">Reduce image file size without losing quality</p>
+                    </div>
+                </a>
+                
+                <!-- Word Counter -->
+                <a href="word-counter.html" class="tool-card" data-category="text" data-tool-name="word counter">
+                    <span class="tool-badge">Popular</span>
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-blue-100">
+                            <i class="fas fa-font text-blue-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Word Counter</h3>
+                        <p class="text-gray-600 text-sm">Count words, characters, sentences and paragraphs</p>
+                    </div>
+                </a>
+                
+                <!-- Unit Converter -->
+                <a href="unit-converter.html" class="tool-card" data-category="converter" data-tool-name="unit converter">
+                    <span class="tool-badge">Popular</span>
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-pink-100">
+                            <i class="fas fa-ruler-combined text-pink-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Unit Converter</h3>
+                        <p class="text-gray-600 text-sm">Convert between length, weight, volume and more</p>
+                    </div>
+                </a>
+                
+                <!-- Color Picker -->
+                <a href="color-picker.html" class="tool-card" data-category="dev" data-tool-name="color picker">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-yellow-100">
+                            <i class="fas fa-palette text-yellow-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Color Picker</h3>
+                        <p class="text-gray-600 text-sm">Select, convert and preview colors</p>
+                    </div>
+                </a>
+
+                <!-- CSV to JSON -->
+                <a href="csv-to-json.html" class="tool-card" data-category="dev" data-tool-name="csv to json converter">
+                    <div class="p-5 h-full">
+                        <div class="tool-icon bg-teal-100">
+                            <i class="fas fa-file-excel text-teal-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">CSV to JSON</h3>
+                        <p class="text-gray-600 text-sm">Convert CSV data to JSON format easily</p>
+                    </div>
+                </a>
+               
+                <!-- More tools can be added here following the same pattern -->
+                <!-- Each tool should have the appropriate data-category and data-tool-name attributes -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-12 flex justify-center">
+                <nav class="inline-flex rounded-md shadow" aria-label="Pagination">
+                    <a href="#" class="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a href="all-tools.html" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-blue-600 font-medium">1</a>
+                    <a href="all-tools-page2.html" class="px-4 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">2</a>
+                    <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">3</a>
+                    <a href="#" class="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">Need a custom tool for your business?</h2>
+            <p class="text-blue-100 max-w-2xl mx-auto mb-8">We can develop custom online tools tailored to your specific requirements.</p>
+            <a href="contact.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-50">
+                Contact Us <i class="fas fa-envelope ml-2" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="all-tools.html" class="text-blue-400 font-medium text-sm">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="word-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Word to PDF</a></li>
+                        <li><a href="image-resizer.html" class="text-gray-400 hover:text-white text-sm">Image Resizer</a></li>
+                        <li><a href="password-generator.html" class="text-gray-400 hover:text-white text-sm">Password Generator</a></li>
+                        <li><a href="qr-code-generator.html" class="text-gray-400 hover:text-white text-sm">QR Code Generator</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none" required>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm" aria-label="Subscribe">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy-policy.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="cookie-policy.html" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+        
+        // Close sidebar when clicking on a link
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Search functionality
+        const searchBox = document.querySelector('.search-box');
+        const toolCards = document.querySelectorAll('.tool-card');
+        
+        // Search box input handler
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let visibleCount = 0;
+            
+            toolCards.forEach(card => {
+                const toolName = card.dataset.toolName;
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                
+                const matchesSearch = searchTerm === '' || 
+                                    toolName.includes(searchTerm) || 
+                                    title.includes(searchTerm) || 
+                                    desc.includes(searchTerm);
+                
+                if (matchesSearch) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update tool count
+            document.getElementById('tool-count').textContent = visibleCount;
+        });
+        
+        // Initialize tool count
+        document.getElementById('tool-count').textContent = document.querySelectorAll('.tool-card').length;
+    </script>
+</body>
+</html>

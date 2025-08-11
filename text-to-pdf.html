@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Primary Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to PDF Converter | Create PDF from Text Online Free | StackoTools</title>
+    <meta name="description" content="Convert text to PDF online for free. Create professional PDF documents from plain text with customizable formatting. No registration required - 100% secure.">
+    <meta name="keywords" content="text to pdf, create pdf from text, online pdf creator, free text to pdf converter, generate pdf from text">
+    <meta name="author" content="StackoTools">
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stackotools.com/text-to-pdf.html">
+    <meta property="og:title" content="Text to PDF Converter | Create PDF from Text Online Free | StackoTools">
+    <meta property="og:description" content="Convert text to PDF online for free. Create professional PDF documents from plain text with customizable formatting. No registration required - 100% secure.">
+    <meta property="og:image" content="https://stackotools.com/images/text-to-pdf-preview.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://stackotools.com/text-to-pdf.html">
+    <meta name="twitter:title" content="Text to PDF Converter | Create PDF from Text Online Free | StackoTools">
+    <meta name="twitter:description" content="Convert text to PDF online for free. Create professional PDF documents from plain text with customizable formatting. No registration required - 100% secure.">
+    <meta name="twitter:image" content="https://stackotools.com/images/text-to-pdf-preview.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://stackotools.com/text-to-pdf.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Text to PDF Converter",
+      "url": "https://stackotools.com/text-to-pdf.html",
+      "description": "Free online tool to convert text content to professional PDF documents with customizable formatting options.",
+      "applicationCategory": "DocumentConverter",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "StackoTools"
+      }
+    }
+    </script>
+    
+    <style>
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.open { transform: translateX(0); }
+        .overlay { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .overlay.open { display: block; opacity: 0.5; }
+        .tool-card { transition: all 0.3s ease; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        #pdfPreview { max-height: 500px; }
+        .text-editor { min-height: 300px; }
+        @media (max-width: 640px) {
+            #pdfPreview { max-height: 300px; }
+            .converter-container { flex-direction: column; }
+        }
+        .breadcrumb { font-size: 0.9rem; }
+        .breadcrumb a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center" aria-label="StackoTools Home">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">StackoTools</h1>
+            </a>
+            <button id="menu-toggle" class="md:hidden text-gray-600" aria-label="Toggle menu">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="/all-tools.html" class="text-gray-700 hover:text-blue-600">All Tools</a>
+                <a href="/about" class="text-gray-700 hover:text-blue-600">About</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="/contact" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Mobile Menu -->
+    <div class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-20">
+        <div class="p-4 border-b">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-tools text-white text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">StackoTools</h2>
+            </div>
+        </div>
+        <div class="p-4 overflow-y-auto h-full">
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mb-3">Categories</h3>
+            <ul class="space-y-2">
+                <li><a href="calculator.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-calculator mr-2 text-blue-500"></i> Calculators</a></li>
+                <li><a href="pdf-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-file-pdf mr-2 text-red-500"></i> PDF Tools</a></li>
+                <li><a href="image-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-image mr-2 text-green-500"></i> Image Tools</a></li>
+                <li><a href="text-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-font mr-2 text-purple-500"></i> Text Tools</a></li>
+                <li><a href="developer-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-code mr-2 text-yellow-500"></i> Developer Tools</a></li>
+                <li><a href="converters.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700"><i class="fas fa-random mr-2 text-pink-500"></i> Converters</a></li>
+            </ul>
+            
+            <h3 class="text-gray-500 uppercase text-xs font-semibold mt-6 mb-3">Quick Links</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Home</a></li>
+                <li><a href="all-tools.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">All Tools</a></li>
+                <li><a href="about.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">About Us</a></li>
+                <li><a href="contact.html" class="block px-3 py-2 rounded hover:bg-gray-100 text-gray-700">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black z-10"></div>
+
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-3 breadcrumb">
+        <nav aria-label="breadcrumb">
+            <ol class="flex flex-wrap items-center space-x-2 text-gray-600">
+                <li><a href="/" class="hover:text-blue-600">Home</a></li>
+                <li><i class="fas fa-chevron-right text-xs"></i></li>
+                <li class="text-gray-800">Text to PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title and Description -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-font text-blue-600 text-3xl"></i>
+                <i class="fas fa-arrow-right text-gray-500 mx-2 text-xl"></i>
+                <i class="fas fa-file-pdf text-red-600 text-3xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Text to PDF Converter</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Create professional PDF documents from plain text with customizable formatting options. Perfect for reports, resumes, and documents.
+            </p>
+        </div>
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 max-w-4xl mx-auto">
+            <div class="p-6 converter-container flex flex-col md:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div class="mb-4">
+                        <label for="documentTitle" class="block text-sm font-medium text-gray-700 mb-1">Document Title</label>
+                        <input type="text" id="documentTitle" placeholder="My Document" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="textEditor" class="block text-sm font-medium text-gray-700 mb-1">Enter Your Text</label>
+                        <div class="border border-gray-300 rounded-lg overflow-hidden">
+                            <div id="textEditor" class="text-editor p-4 focus:outline-none" contenteditable="true" placeholder="Type or paste your text here..."></div>
+                        </div>
+                    </div>
+
+                    <!-- Text Import Options -->
+                    <div class="mb-4 border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-medium text-gray-700 mb-3">Import Text</h3>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button id="pasteTextBtn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fas fa-paste mr-2"></i> Paste Text
+                            </button>
+                            <button id="uploadTextBtn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fas fa-upload mr-2"></i> Upload TXT File
+                            </button>
+                            <input type="file" id="fileInput" accept=".txt" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Formatting Options -->
+                    <div class="mb-6 border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-medium text-gray-700 mb-3">PDF Formatting Options</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="fontFamily" class="block text-sm text-gray-700 mb-1">Font Family</label>
+                                <select id="fontFamily" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Courier">Courier</option>
+                                    <option value="Arial">Arial</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fontSize" class="block text-sm text-gray-700 mb-1">Font Size</label>
+                                <select id="fontSize" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                                    <option value="10">10pt</option>
+                                    <option value="12" selected>12pt</option>
+                                    <option value="14">14pt</option>
+                                    <option value="16">16pt</option>
+                                    <option value="18">18pt</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="pageSize" class="block text-sm text-gray-700 mb-1">Page Size</label>
+                                <select id="pageSize" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                                    <option value="A4">A4 (210 × 297 mm)</option>
+                                    <option value="Letter">Letter (8.5 × 11 in)</option>
+                                    <option value="Legal">Legal (8.5 × 14 in)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="pageOrientation" class="block text-sm text-gray-700 mb-1">Orientation</label>
+                                <select id="pageOrientation" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                                    <option value="portrait">Portrait</option>
+                                    <option value="landscape">Landscape</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="addPageNumbers" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="addPageNumbers" class="ml-2 block text-sm text-gray-700">Add page numbers</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="addHeaderFooter" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="addHeaderFooter" class="ml-2 block text-sm text-gray-700">Add header/footer</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button id="convertBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                            <i class="fas fa-file-pdf mr-2"></i> Create PDF
+                        </button>
+                        <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                            Clear Text
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="border rounded-lg p-4 h-full">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">PDF Preview</h3>
+                            <div id="downloadContainer" class="hidden">
+                                <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-download mr-1"></i> Download PDF
+                                </button>
+                            </div>
+                        </div>
+                        <div id="pdfPreview" class="border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50 h-full min-h-[300px]">
+                            <div class="text-center p-4 text-gray-500">
+                                <i class="fas fa-file-pdf text-4xl mb-2"></i>
+                                <p>Your PDF will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Why Use Our Text to PDF Converter?</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 mx-auto">
+                            <i class="fas fa-lock text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2 text-center">Secure Processing</h3>
+                        <p class="text-gray-600 text-sm text-center">All conversion happens in your browser. Your text never leaves your device.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 mx-auto">
+                            <i class="fas fa-sliders-h text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2 text-center">Custom Formatting</h3>
+                        <p class="text-gray-600 text-sm text-center">Control font, size, layout and more to create professional-looking PDFs.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 mx-auto">
+                            <i class="fas fa-bolt text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-2 text-center">Instant Results</h3>
+                        <p class="text-gray-600 text-sm text-center">Generate your PDF in seconds with no watermarks or limitations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Common Uses for Text to PDF Conversion</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-lg p-3 mr-4">
+                            <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 mb-1">Resumes & CVs</h3>
+                            <p class="text-gray-600 text-sm">Convert your text resume to a professional PDF format that looks great on any device.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-lg p-3 mr-4">
+                            <i class="fas fa-book text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 mb-1">Academic Papers</h3>
+                            <p class="text-gray-600 text-sm">Format your essays and research papers properly before submission.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-lg p-3 mr-4">
+                            <i class="fas fa-briefcase text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 mb-1">Business Documents</h3>
+                            <p class="text-gray-600 text-sm">Create professional contracts, reports, and proposals in PDF format.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-lg p-3 mr-4">
+                            <i class="fas fa-scroll text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 mb-1">Personal Notes</h3>
+                            <p class="text-gray-600 text-sm">Preserve your important notes and ideas in a portable PDF format.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-2">Is this Text to PDF converter really free?</h3>
+                        <p class="text-gray-600 text-sm">Yes, our Text to PDF converter is completely free to use with no hidden charges. You can create as many PDFs as you need without any limitations.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-2">Is there a limit to how much text I can convert?</h3>
+                        <p class="text-gray-600 text-sm">There's no strict character limit, but very large documents may take longer to process. For best performance, we recommend converting documents under 100,000 characters at a time.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-medium text-gray-800 mb-2">Can I edit the PDF after creation?</h3>
+                        <p class="text-gray-600 text-sm">This tool creates standard PDF files that can be edited with any PDF editor. For simple changes, you can edit your original text and create a new PDF.</p>
+                    </div>
+                    <div class="pb-4">
+                        <h3 class="font-medium text-gray-800 mb-2">Are my documents stored on your servers?</h3>
+                        <p class="text-gray-600 text-sm">No, all processing happens in your browser. Your text never leaves your device, ensuring complete privacy and security.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">StackoTools</h3>
+                    </div>
+                    <p class="text-sm mb-4">100+ free online tools to make your life easier. No installation, no registration required.</p>
+                    
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+                        <li><a href="/all-tools.html" class="text-gray-400 hover:text-white text-sm">All Tools</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white text-sm">Contact</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/age-calculator.html" class="text-gray-400 hover:text-white text-sm">Age Calculator</a></li>
+                        <li><a href="/word-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Word to PDF</a></li>
+                        <li><a href="/text-to-pdf.html" class="text-gray-400 hover:text-white text-sm">Text to PDF</a></li>
+                        <li><a href="/word-counter.html" class="text-gray-400 hover:text-white text-sm">Word Counter</a></li>
+                    </ul>
+                </div>
+               
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">Subscribe to get updates on new tools and features.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l text-sm text-gray-800 w-full focus:outline-none" required>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r text-sm" aria-label="Subscribe">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+           
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-2 md:mb-0">© 2023 StackoTools. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="/privacy-policy" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="/terms" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="/cookies" class="text-sm text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- Main Script -->
+    <script>
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+        
+        // Close sidebar when clicking on a link
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+    const textEditor = document.getElementById('textEditor');
+    const documentTitle = document.getElementById('documentTitle');
+    const convertBtn = document.getElementById('convertBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const pdfPreview = document.getElementById('pdfPreview');
+    const downloadContainer = document.getElementById('downloadContainer');
+    const pasteTextBtn = document.getElementById('pasteTextBtn');
+    const uploadTextBtn = document.getElementById('uploadTextBtn');
+    const fileInput = document.getElementById('fileInput');
+
+    const fontFamily = document.getElementById('fontFamily');
+    const fontSize = document.getElementById('fontSize');
+    const pageSize = document.getElementById('pageSize');
+    const pageOrientation = document.getElementById('pageOrientation');
+    const addPageNumbers = document.getElementById('addPageNumbers');
+    const addHeaderFooter = document.getElementById('addHeaderFooter');
+
+    pasteTextBtn.addEventListener('click', async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            if (text) {
+                textEditor.innerHTML = text.replace(/\n/g, '<br>');
+            } else {
+                alert('No text found in clipboard');
+            }
+        } catch (err) {
+            alert('Failed to read clipboard. Please paste manually.');
+            console.error('Clipboard error:', err);
+        }
+    });
+
+    uploadTextBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', handleFileUpload);
+
+    function handleFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.name.endsWith('.txt')) {
+            alert('Please upload a .txt file');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            textEditor.innerHTML = e.target.result.replace(/\n/g, '<br>');
+        };
+        reader.readAsText(file);
+        fileInput.value = '';
+    }
+
+    clearBtn.addEventListener('click', () => {
+        textEditor.innerHTML = '';
+        documentTitle.value = '';
+        pdfPreview.innerHTML = `
+            <div class="text-center p-4 text-gray-500">
+                <i class="fas fa-file-pdf text-4xl mb-2"></i>
+                <p>Your PDF will appear here</p>
+            </div>
+        `;
+        downloadContainer.classList.add('hidden');
+    });
+
+    convertBtn.addEventListener('click', async () => {
+        const textContent = textEditor.innerText || textEditor.textContent;
+        if (!textContent.trim()) {
+            alert('Please enter some text to convert');
+            return;
+        }
+
+        convertBtn.disabled = true;
+        convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating PDF...';
+
+        try {
+            const pdfDoc = await PDFDocument.create();
+            const title = documentTitle.value.trim() || 'Untitled Document';
+            pdfDoc.setTitle(title);
+            pdfDoc.setAuthor('StackoTools');
+
+            const selectedFont = fontFamily.value;
+            const selectedFontSize = parseInt(fontSize.value);
+            const selectedPageSize = pageSize.value;
+            const selectedOrientation = pageOrientation.value;
+            const shouldAddPageNumbers = addPageNumbers.checked;
+            const shouldAddHeaderFooter = addHeaderFooter.checked;
+
+            let pageWidth, pageHeight;
+            switch (selectedPageSize) {
+                case 'A4': pageWidth = 595.28; pageHeight = 841.89; break;
+                case 'Letter': pageWidth = 612; pageHeight = 792; break;
+                case 'Legal': pageWidth = 612; pageHeight = 1008; break;
+                default: pageWidth = 595.28; pageHeight = 841.89;
+            }
+
+            if (selectedOrientation === 'landscape') {
+                [pageWidth, pageHeight] = [pageHeight, pageWidth];
+            }
+
+            let font;
+            switch (selectedFont) {
+                case 'Helvetica':
+                    font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                    break;
+                case 'Times New Roman':
+                    font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                    break;
+                case 'Courier':
+                    font = await pdfDoc.embedFont(StandardFonts.Courier);
+                    break;
+                default:
+                    font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+            }
+
+            const margin = 50;
+            const lineHeight = selectedFontSize * 1.5;
+            let currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+            let y = pageHeight - margin - selectedFontSize;
+
+            if (shouldAddHeaderFooter) {
+                addHeader(currentPage, title, font, selectedFontSize, pageWidth, pageHeight, margin);
+            }
+
+            const paragraphs = textContent.split('\n').filter(p => p.trim());
+
+            for (const paragraph of paragraphs) {
+                const words = paragraph.split(' ');
+                let currentLine = '';
+
+                for (const word of words) {
+                    const testLine = currentLine ? `${currentLine} ${word}` : word;
+                    const testWidth = font.widthOfTextAtSize(testLine, selectedFontSize);
+
+                    if (testWidth > (pageWidth - margin * 2)) {
+                        if (y < margin + lineHeight) {
+                            if (shouldAddPageNumbers || shouldAddHeaderFooter) {
+                                addFooter(pdfDoc, currentPage, font, margin, shouldAddPageNumbers);
+                            }
+                            currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+                            y = pageHeight - margin - selectedFontSize;
+                            if (shouldAddHeaderFooter) {
+                                addHeader(currentPage, title, font, selectedFontSize, pageWidth, pageHeight, margin);
+                            }
+                        }
+
+                        currentPage.drawText(currentLine, {
+                            x: margin,
+                            y: y,
+                            size: selectedFontSize,
+                            font: font,
+                            color: rgb(0, 0, 0),
+                        });
+
+                        y -= lineHeight;
+                        currentLine = word;
+                    } else {
+                        currentLine = testLine;
+                    }
+                }
+
+                if (currentLine) {
+                    if (y < margin + lineHeight) {
+                        if (shouldAddPageNumbers || shouldAddHeaderFooter) {
+                            addFooter(pdfDoc, currentPage, font, margin, shouldAddPageNumbers);
+                        }
+                        currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+                        y = pageHeight - margin - selectedFontSize;
+                        if (shouldAddHeaderFooter) {
+                            addHeader(currentPage, title, font, selectedFontSize, pageWidth, pageHeight, margin);
+                        }
+                    }
+
+                    currentPage.drawText(currentLine, {
+                        x: margin,
+                        y: y,
+                        size: selectedFontSize,
+                        font: font,
+                        color: rgb(0, 0, 0),
+                    });
+
+                    y -= lineHeight;
+                }
+
+                y -= lineHeight / 2;
+            }
+
+            if (shouldAddPageNumbers || shouldAddHeaderFooter) {
+                addFooter(pdfDoc, currentPage, font, margin, shouldAddPageNumbers);
+            }
+
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const pdfUrl = URL.createObjectURL(blob);
+
+            pdfPreview.innerHTML = `
+                <embed src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" width="100%" height="100%">
+            `;
+
+            downloadBtn.onclick = () => {
+                saveAs(blob, `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
+            };
+            downloadContainer.classList.remove('hidden');
+
+        } catch (error) {
+            console.error('Detailed PDF Error:', error);
+            alert(`Error generating PDF: ${error.message}`);
+        } finally {
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i> Create PDF';
+        }
+    });
+
+    function addHeader(page, title, font, fontSize, pageWidth, pageHeight, margin) {
+        page.drawText(title, {
+            x: margin,
+            y: pageHeight - margin + 20,
+            size: fontSize,
+            font: font,
+            color: rgb(0.5, 0.5, 0.5),
+        });
+
+        const dateStr = new Date().toLocaleDateString();
+        page.drawText(dateStr, {
+            x: pageWidth - margin - 100,
+            y: pageHeight - margin + 20,
+            size: fontSize - 2,
+            font: font,
+            color: rgb(0.5, 0.5, 0.5),
+        });
+
+        page.drawLine({
+            start: { x: margin, y: pageHeight - margin + 10 },
+            end: { x: pageWidth - margin, y: pageHeight - margin + 10 },
+            thickness: 0.5,
+            color: rgb(0.8, 0.8, 0.8),
+        });
+    }
+
+    function addFooter(pdfDoc, page, font, margin, addPageNumbers) {
+        const pageCount = pdfDoc.getPageCount();
+
+        page.drawLine({
+            start: { x: margin, y: margin - 10 },
+            end: { x: page.getWidth() - margin, y: margin - 10 },
+            thickness: 0.5,
+            color: rgb(0.8, 0.8, 0.8),
+        });
+
+        if (addPageNumbers) {
+            page.drawText(`Page ${pageCount}`, {
+                x: page.getWidth() - margin - 50,
+                y: margin - 30,
+                size: 10,
+                font: font,
+                color: rgb(0.5, 0.5, 0.5),
+            });
+        }
+
+        page.drawText('Created with StackoTools', {
+            x: margin,
+            y: margin - 30,
+            size: 10,
+            font: font,
+            color: rgb(0.5, 0.5, 0.5),
+        });
+    }
+});
+</script>
+
+</body>
+</html>
